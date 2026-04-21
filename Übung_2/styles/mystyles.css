@@ -1,0 +1,31 @@
+body {
+  font-family: verdana;
+}
+
+header {
+    background-color: #AFAFAF;
+}
+
+header image{
+    display: flex; /*Flexbox einfügen*/
+}
+
+h1 {
+  color: #0082D1;
+}
+
+h2 {
+  margin: 50px;
+}
+
+li {
+  color: black;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+li a{
+    color:black;
+    text-decoration: none;
+}
