@@ -1,31 +1,134 @@
+* {                 /*Wirkt sich auf alle Elemente aus*/
+ margin: 0;
+  padding: 0;
+  box-sizing: border-box; 
+}
+
 body {
   font-family: verdana;
+  background-color: rgb(255, 255, 251);
+  display: flex;
+  gap: 10px;    /*Abstand zwischen Blöcken*/
+  flex-direction: column;  /*Anordnung von oben nach unten*/
+  justify-content: flex-start;  /*Start oben rechts*/
 }
 
 header {
-    background-color: #AFAFAF;
+  background-color: #AFAFAF;
+  display: flex; 
+  justify-content: space-between; /*Abstand zwischen den Elementen, eins rechts - eins links*/
+  align-items: center;
 }
 
-header image{
-    display: flex; /*Flexbox einfügen*/
+header img {
+  width: 60px;
+  height: auto;  /*Somit richtet sich nach width und wird nicht verformt*/
+  padding: 10px; 
+}
+
+header p {
+    padding: 10px; 
+}
+
+main {
+  display: flex;
+  flex-direction: row;  /*Nebeneinander, damit die aside hinzugefügt werden kann*/
+  gap: 10px;
+  padding: 20px;
+}
+
+main img {
+  width: 100%;
+  height: auto;
+}
+
+.button1 {  /*Als Klasse angelegt*/
+  
+
+}
+
+section {
+  flex: 3;
 }
 
 h1 {
   color: #0082D1;
+  margin-bottom: 20px;
 }
 
-h2 {
-  margin: 50px;
+h3 {
+  margin: 10px;
+  margin-top: 30px;
 }
 
 li {
+  list-style: none;   /*Entfernt die Aufzählungszeichen*/
   color: black;
-  border: 1px solid black;
+  border: 1px solid #AFAFAF;
   border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
   padding: 5px;
+  margin: 10px;
 }
 
-li a{
+li a {
     color:black;
     text-decoration: none;
+}
+
+li:hover {
+  border: 1px solid #76B900;
+  text-emphasis-color: #76B900;
+  background-color:#75b90028;
+}
+
+li:hover a {
+  color: #76B900;
+}
+
+table {
+  /*border-spacing: 30px 5px; /*horizontal und vertikal*/
+  text-align: left;  
+  border-collapse: collapse;  /*Abstände innerhalb der rows werden entfernt*/
+  width: 70%;
+}
+
+th {
+  background-color: #76B900;
+  color: white;
+  padding: 10px;
+}
+
+td {
+  padding: 10px;
+  /*border-bottom: 1px solid #ddd;*/
+}
+
+tr:nth-child(even) {  /*Siehe W3-School - Zebra-Muster-Tabelle*/
+  background-color: rgb(238, 238, 238);
+}
+
+tr:hover {
+  background-color:#75b90028;
+}
+
+aside {
+  flex: 1;
+  background-color: #f5faec;
+  display: flex;
+  flex-direction: column;
+  justify-content:space-evenly;  /*horizontal*/
+  align-items: center;    /*vertikal*/
+}
+
+aside img {
+  height: 100px;
+  width: auto;
+}
+
+footer {
+    background-color: #FF5F00;
+    text-align: center;
+    padding: 10px;
 }
