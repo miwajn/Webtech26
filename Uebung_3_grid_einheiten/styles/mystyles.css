@@ -1,0 +1,25 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+}
+
+.citycard {
+    background-color: aquamarine;
+    border: solid;
+    /*margin: 10px;*/
+    padding: 20px;
+    place-content: center;
+}
+
+.cityimage {
+    img {
+        height: 100px;
+    }
+}
+
+.cityname {
+    p {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+}
