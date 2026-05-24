@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>Javascript</title>
+    <style>
+        div#output {
+            height: 300px;
+        }
+    </style>
+</head>
+<body class="container">
+    <h1>Formular auslesen</h1>
+    <h4>Kommentare</h4>
+
+    <form id="form" onsubmit="return false;"> 
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="input1" placeholder="Kommentar 1" onchange="fixeInput()" />
+            <label for="input1">Kommentar 1</label>
+        </div>
+
+    </form> 
+    <script>
+        let nr = 1;
+
+        function fixeInput() {
+            /*
+            let curInputId = "input" + nr;
+            let curInputElement = document.getElementById(curInputId);
+            console.log(curInputElement.value);
+            curInputElement.disabled = "true";
+
+            let newDiv = document.createElement('div');
+            newDiv.classList.add("form-floating", "mb-3");
+            nr++;
+            let newInputId = "input"+nr;
+            let newInput = document.createElement('input');
+            newInput.classList.add("form-control");
+            newInput.placeholder = "Kommentar " + nr;
+            newInput.id = newInputId;
+            newInput.addEventListener("change", fixeInput);
+            let newLabel = document.createElement('label');
+            newLabel.for = newInputId;
+            newLabel.textContent = "Kommentar " + nr;
+            newDiv.appendChild(newInput);
+            newDiv.appendChild(newLabel);
+            let form = document.getElementById('form');
+            form.appendChild(newDiv);
+
+            newInput.focus();
+            */
+
+            nr++;
+            let curInputId = "input" + nr;
+            let kommentar = "Kommentar " + nr;
+            let form = document.getElementById('form');
+            form.innerHTML += `
+            <div class="form-floating mb-3">
+                <input class="form-control" id=${curInputId} placeholder=${kommentar} onchange="fixeInput()" />
+                <label for=${curInputId}>${kommentar}</label>
+            </div> `
+            document.querySelector(`#${curInputId}`).focus()
+
+        }
+    </script>
+
+</body>
+</html>

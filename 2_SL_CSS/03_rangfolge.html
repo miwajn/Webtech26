@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+<meta charset="UTF-8">
+    
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<title>Reihenfolge Selektoren</title>
+    
+<style>
+      a:link {
+        color: blue; 
+      }
+
+      .link {
+        color: green;   /* CSS-Kommentar */
+      }
+      #navigation a {
+        color: red;
+      }
+
+      li a {
+        color: magenta;
+      }
+    </style>
+</head>
+<body>
+        
+<!-- HTML-Kommentar                 -->
+    
+<header>
+        
+<h1>Reihenfolge Wirkung Selektoren</h1>
+    
+</header>
+
+    
+<main>
+        
+<h4>Test</h4>
+        
+<ul id="navigation">
+            
+<li><a href="./01_cascading.html" class="link">Einführung</a></li>
+            
+<li><a href="./02_boxmodel.html" class="link">Boxmodel</a></li>
+        
+</ul>
+        
+<h4>Prinzip</h4>
+        
+<dl>
+            
+<dt><em>Kategorie A</em></dt>
+            
+<dd>erhält den Wert 1, wenn CSS-Definitionen direkt im style-Attribut eines HTML-Elementes notiert sind</dd>
+            
+<dt><em>Kategorie B</em></dt>
+            
+<dd>erhält den Wert 1 bei Selektoren für Elemente mit id-Attributen</dd>
+            
+<dt><em>Kategorie C</em></dt>
+            
+<dd>Anzahl der von einem Selektor betroffenen Klassen und Pseudoklassen</dd>
+            
+<dt><em>Kategorie D</em></dt>
+            
+<dd>Anzahl der von einem Selektor betroffenen Elementnamen und Pseudo-Elemente</dd>
+        
+</dl>
+        
+<ol>
+            
+<li>Bei der Reihenfolge der Sortierung gilt: A > B > C > D, also z.B. 1 0 0 0 vor (größer als) 0 1 2 2.</li>
+            
+<li>Bei Gleichheit gilt die letzte Definition</li>
+        
+</ol>
+    
+</main>
+    
+<footer>
+        
+<p><a href="./02_boxmodel.html">Boxmodel</a>&nbsp;&middot;&nbsp;<a href="./01_cascading.html">Einführung</a></p>
+    
+</footer>
+
+</body>
+</html>

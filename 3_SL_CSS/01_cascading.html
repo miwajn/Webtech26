@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cascading</title>
+    <link rel="stylesheet" href="./styles/mystyles.css" />
+    <style>
+            main {
+                color: red;
+            }
+             section>p {
+                color: green;
+            }
+
+            .blaueSchrift {
+                color: blue;
+            }
+
+            .roterHintergrund {
+                background-color: red;
+            }
+
+            #section2 {
+                background-color: rgb(185, 218, 166)
+            }
+
+            ul>li {
+                background-color: rgb(131, 131, 72)
+            }
+        </style>
+</head>
+<body>
+    <header>
+        <h1>Cascading Style Sheets - CSS</h1>
+    </header>
+    <main>
+        <section>
+            <h2 class="blaueSchrift roterHintergrund">Section 1</h2>
+            <article>
+                <p>Lorem ipsum dolor sit amet <span>consectetur</span> adipisicing elit. Quisquam, quae.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.</p>
+            </article>
+            <article>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.</p>
+            </article>
+            <p>direktes Kind einer section</p>
+        </section>
+        <section id="section2">
+            <h2 class="blaueSchrift">Section 2</h2>
+            <article>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.</p>
+                hallo ballo
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.</p>
+            </article>
+            <article>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.</p>
+            </article>
+        </section>
+        <ol>
+            <li>item 1
+                <ul>
+                    <li>subitem 1</li>
+                    <li>subitem 2</li>
+                    <li>subitem 3</li>
+                </ul>
+            </li>
+            <li>item 2</li>
+            <li>item 3</li>
+            <li>item 4</li>
+            <li>item 5</li>
+        </ol>
+    </main>
+    <aside>
+        <h2 class="roterHintergrund">Aside</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.</p>
+    </aside>
+    <footer>
+        <p>
+            <a href="./02_boxmodel.html">Boxmodel</a>&nbsp;&middot;&nbsp;
+            <a href="./03_rangfolge.html">Rangfolge</a>&nbsp;&middot;&nbsp;
+            <a href="https://www.htw-berlin.de">HTW Berlin</a>
+
+        </p>
+    </footer>
+
+</body>
+</html>

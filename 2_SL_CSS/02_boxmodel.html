@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+<meta charset="UTF-8">
+    
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<title>Box-Model</title>
+    
+<style>
+      * {
+        box-sizing: content-box;  /* Standard */
+      }
+
+      img {
+        border: 1px solid black;
+    }
+      div {
+          width: 280px;
+          padding: 30px;
+          border: 5px solid gray;
+          margin: 0;
+      }
+    </style>
+</head>
+<body>
+    
+<header>
+        
+<h1>Box-Model</h1>
+    
+</header>
+    
+<main>
+        
+<img src="../images/fiw.jpg" alt="fiw logo" style="width:348px"/>
+        
+<div>Das FIW-Logo hat eine Breite von 350px (width:348px + 2 x 1px Border).
+            Der Inhalt dieser Box hat eine Breite von 280px.
+            Dazu kommt padding von 30px (auf beiden Seiten)
+            und ein Rahmen mit der Breite von 5px. Macht zusammen
+            350px.
+        
+</div>
+    
+</main>
+    
+<footer>
+        
+<p><a href="./01_cascading.html">Einführung</a>&nbsp;&middot;&nbsp;<a href="./03_rangfolge.html">Rangfolge</a></p>
+    
+</footer>
+
+</body>
+</html>

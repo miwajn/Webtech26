@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Einführung - Lerne die Grundlagen</title>
+    <link id="stylesheet" rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Willkommen zur HTML-Einführung</h1>
+        <p>HTML enthält alle Inhalte</p>
+        <input id="cssToggle" type="checkbox" checked onchange="toggleCSS(this)"/>
+        <label id="cssLabel" for="cssToggle">mit CSS</label>
+    </header>
+
+    <nav>
+        <h3>Inhaltsverzeichnis</h3>
+        <ul>
+            <li><a href="#struktur">Die Grundstruktur</a></li>
+            <li><a href="#texte">Texte und Formatierung</a></li>
+            <li><a href="#medien">Bilder und Links</a></li>
+            <li><a href="#tabellen">Tabellen</a></li>
+            <li><a href="#details">Akkordeon</a></li>
+            <li><a href="#dialog">Modaler Dialog</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="struktur">
+            <h2>1. Die Grundstruktur</h2>
+            <p>Jedes HTML-Dokument beginnt mit dem <code>&lt;!DOCTYPE html&gt;</code>. Dies sagt dem Browser, dass es sich um ein modernes HTML5-Dokument handelt.</p>
+            <p>Die wichtigsten "Eltern-Elemente" sind:</p>
+            <ul>
+                <li><strong>&lt;html&gt;</strong>: Die Wurzel des Dokuments.</li>
+                <li><strong>&lt;head&gt;</strong>: Enthält Metadaten (nicht sichtbar auf der Seite).</li>
+                <li><strong>&lt;body&gt;</strong>: Hier kommt alles rein, was die Nutzerin sieht.</li>
+            </ul>
+        </section>
+
+        <section id="texte">
+            <h2>2. Texte und Listen</h2>
+            <p>Man nutzt Überschriften von <code>&lt;h1&gt;</code> bis <code>&lt;h6&gt;</code>, um Inhalte zu strukturieren.</p>
+
+            <h3>Geordnete Liste (Beispiel)</h3>
+            <ol>
+                <li>HTML lernen</li>
+                <li>CSS lernen</li>
+                <li>JavaScript lernen</li>
+            </ol>
+        </section>
+
+        <section id="medien">
+            <h2>3. Bilder und Verweise</h2>
+            <p>Ein Link wird mit dem <span class="highlight">Anchor-Tag</span> <code>&lt;a&gt;</code> erstellt:</p>
+            <a href="https://www.htw-berlin.de/" target="_blank">Dies ist ein externer Link zur HTW-Seite</a>
+
+            <h3>Ein Bild einbinden</h3>
+            <p>Bilder benötigen ein <code>src</code> (Quelle) und ein <code>alt</code> (Alternative für Screenreader) Attribut.</p>
+            <img src="../images/htw.jpg" alt="Beispielbild">
+        </section>
+
+        <section id="tabellen">
+            <h2>4. Daten in Tabellen strukturieren</h2>
+            <p>Tabellen werden in HTML Zeile für Zeile aufgebaut. Hier sind die wichtigsten Tags:</p>
+            <ul>
+                <li><code>&lt;table&gt;</code>: Das umschließende Element.</li>
+                <li><code>&lt;tr&gt;</code>: Eine Tabellenzeile (Table Row).</li>
+                <li><code>&lt;th&gt;</code>: Eine Kopfzelle (Table Header) – der Text ist meist fett und zentriert.</li>
+                <li><code>&lt;td&gt;</code>: Eine normale Datenzelle (Table Data).</li>
+            </ul>
+
+            <table border="1" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                <thead>
+                    <tr style="background-color: #eee;">
+                        <th>Tag</th>
+                        <th>Beschreibung</th>
+                        <th>Beispiel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>&lt;tr&gt;</code></td>
+                        <td>Table Row</td>
+                        <td>Definiert eine Zeile</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;th&gt;</code></td>
+                        <td>Table Header</td>
+                        <td>Überschrift in der Tabelle</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;td&gt;</code></td>
+                        <td>Table Data</td>
+                        <td>Inhalt einer Zelle</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="formular">
+            <h2>5. Interaktion (Formulare)</h2>
+            <form>
+                <div>
+                  <label for="name">Vollständiger Name:</label><br>
+                  <input type="text" id="name" name="name" placeholder="Erika Musterfrau" required>
+                </div>
+
+                <div>
+                    <label for="email">Passwort:</label><br>
+                    <input type="password" id="email" name="email" placeholder="musterfrau@htw-berlin.de">
+                </div>
+
+                <div>
+                    <label for="alter">Alter:</label><br>
+                    <input type="number" id="alter" name="alter" min="18" max="99" value="25">
+                </div>
+
+                <div>
+                    <label for="termin">Gewünschtes Datum:</label><br>
+                    <input type="date" id="termin" name="termin">
+                </div>
+
+                <div>
+                    <label for="zufriedenheit">Zufriedenheit (1-10):</label><br>
+                    <input type="range" id="zufriedenheit" name="zufriedenheit" min="1" max="10">
+                </div>
+
+                <div>
+                    <label for="farbe">Lieblingsfarbe:</label><br>
+                    <input type="color" id="farbe" name="farbe" value="#3498db">
+                </div>
+
+                <div>
+                    <label for="datei">Profilbild hochladen:</label><br>
+                    <input type="file" id="datei" name="datei" accept="image/*">
+                </div>
+
+                <div>
+                  <label>Lieblingssprache:</label><br>
+                  <input type="radio" id="html" name="fav" value="HTML"> <label for="html">HTML</label><br>
+                  <input type="radio" id="radio-css" name="fav" value="CSS"> <label for="radio-css">CSS</label><br><br>
+                </div>
+
+                <button type="button" onclick="alert('HTML ist super!')">Abschicken</button>
+            </form>
+        </section>
+
+        <section id="details">
+          <h2>6. Akkordeon</h2>
+          <details>
+              <summary>Was ist der Vorteil von nativem HTML?</summary>
+              <div class="details-content">
+                  <p>Es spart JavaScript, verbessert die Performance und ist von Haus aus barrierefrei (zugänglich für Screenreader).</p>
+              </div>
+          </details>
+        </section>
+
+        <section id="dialog">
+            <h2>7. Interaktives Dialog-Fenster</h2>
+            <p>Klicke auf den Button, um das native HTML-Modal zu testen:</p>
+
+            <button onclick="meinModal.showModal()">Modal öffnen</button>
+
+            <dialog class="btn-open" id="meinModal" style="">
+                <h3>Dies ist ein natives Modal!</h3>
+                <p>Ich liege über allen anderen Elementen.</p>
+
+                <form method="dialog">
+                    <button class="btn-close">Schließen</button>
+                </form>
+            </dialog>
+        </section>
+    </main>
+
+    <script>
+        function toggleCSS(checkbox) {
+            const link = document.getElementById('stylesheet');
+            const label = document.getElementById('cssLabel');
+            link.disabled = !checkbox.checked;
+            label.textContent = checkbox.checked ? 'mit CSS' : 'ohne CSS';
+        }
+    </script>
+
+    <footer>
+        <p>&copy; 2026 - WebTech - HTML-Einführung</p>
+    </footer>
+
+</body>
+</html>
