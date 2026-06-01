@@ -32,7 +32,7 @@
 
             <div class="col-12 col-md-6 col-xl-3">
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="name@example.com" required>          
+                    <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="name@example.com" required>          
                     <label for="exampleInputEmail1">E-mail</label>
                 </div>    
             </div>
@@ -62,13 +62,13 @@
         <h3 class="mt-5">Eingegebene Werte</h3>
         <ul id="output" class="list-group"></ul>
 
-    </main>  
-    <script>
+    </main>
+</body>  
+<script>
         function register(){
             event.preventDefault() //wenn form und submit-Button, ist dieser Teil notwendig
             console.log('Registrieren-Button geklickt')
-        }
-        
+                
         /*function functionRegister(){
             document.getElementById("responseRegister").innerHTML = "Sie wurden registriert.";
         }
@@ -77,9 +77,59 @@
         }*/
        
         // Eingaben auslesen
-        
+        let firstNameElement = document.querySelector('#exampleInputFirstName');
+        console.log(firstNameElement)
+        let firstNameValue = firstNameElement.value;
+        console.log(firstNameValue)
+        let lastNameElement = document.querySelector('#exampleInputLastName')
+        let lastNameValue = lastNameElement.value;
+        let emailElement = document.querySelector('#exampleInputEmail')
+        let emailValue = emailElement.value;
+        let ipaddressElement = document.querySelector('#exampleInputIp')
+        let ipaddressValue = ipaddressElement.value;
+
+        // Eingaben auf Konsole ausgeben
+        console.log('firstNameValue : ', firstNameValue)
+        console.log('lastNameValue : ', lastNameValue)
+        console.log('emailValue : ', emailValue)
+        console.log('ipaddressValue : ', ipaddressValue)
+
+        let inputAll = document.querySelectorAll('input')
+        console.log(inputAll)
+        inputOk = true;
+        for(let index = 0; index < inputAll.length; index++)
+        {
+        if(inputAll[index].value == "") {
+            inputOk = false;
+            inputAll[index].classList.add('is-invalid')
+            inputAll[index].classList.remove('is-valid')
+        } else {
+            inputAll[index].classList.add('is-valid')
+            inputAll[index].classList.remove('is-invalid')
+        }
+        }
+
+        for(let input of inputAll) {
+        console.log('inputs : ', input)
+        }
+
+        let outputListe = document.querySelector('#output')
+        let h3 = document.querySelector('h3')
+        if(inputOk) {
+        h3.textContent = "Eingegebene Werte"
+        h3.style.color = "black";
+        outputListe.innerHTML = `<li class="list-group-item"> Vorname: ${firstNameValue}</li>
+                                <li class="list-group-item"> Nachname: ${lastNameValue}</li>
+                                <li class="list-group-item"> E-Mail: ${emailValue}</li>
+                                <li class="list-group-item"> IP-Adresse: ${ipaddressValue}</li>`
+        }
+        else {
+        h3.textContent = "Alle Werte erforderlich!"
+        h3.style.color = "red";
+        }
+    }
    
         
-    </script> 
-</body>
+</script> 
+
 </html>
