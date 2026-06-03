@@ -1,0 +1,23 @@
+#main {
+    background-color: rgb(226, 243, 188);
+    height: 200px;
+    padding: 1%;
+  }
+  
+  #row {
+    display: grid;
+    grid-gap: 1%;
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  #eins {
+    background-color: rgb(235, 235, 240);
+    text-align: center;
+    padding: 1%;
+  }
+  
+  #zwei {
+    background-color: rgb(191, 191, 243);
+    text-align: center;
+    padding: 1%;
+  }
