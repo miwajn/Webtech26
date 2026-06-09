@@ -1,0 +1,19 @@
+#nav {
+    background-color: black;
+    color: white;
+    padding: 0.5rem;
+}
+
+ul li {
+    display: inline;
+    padding-right: 5rem;
+
+    a {
+        color: rgba(255, 255, 255, 0.699);
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: white;
+    }
+}

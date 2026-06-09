@@ -1,7 +1,11 @@
 <div id="main">
-    <h3>
-        main works!
-    </h3>
+    <h3>{{ title }}</h3>
+    <button [disabled]="isDisabled" 
+        (click)="changeImg()" >Zeige {{buttonname}}</button>
+        <br />
+    <button (click)="smaller()">-</button>
+        <img [src]="bildQuelle" alt="HTW - LSF"/>
+    <button (click)="bigger()">+</button>
     <div id="row">
         <div id="eins">
             <app-eins>
