@@ -1,0 +1,12 @@
+<svg width="320" height="80" viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
+  <title>MedCycle Logo mit Schriftzug</title>
+  <rect width="320" height="80" fill="white"/>
+  <path d="M16 40 A28 28 0 0 1 80 40" fill="none" stroke="#8b5cf6" stroke-width="6" stroke-linecap="round"/>
+  <path d="M80 47 A28 28 0 0 1 16 47" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/>
+  <path d="M22 40 A22 22 0 0 1 74 40" fill="none" stroke="#c4b5fd" stroke-width="4" stroke-linecap="round"/>
+  <path d="M74 47 A22 22 0 0 1 22 47" fill="none" stroke="#93c5fd" stroke-width="4" stroke-linecap="round"/>
+  <rect x="44" y="34" width="10" height="18" rx="2" fill="#8b5cf6"/>
+  <rect x="39" y="39" width="20" height="8" rx="2" fill="#8b5cf6"/>
+  <text x="92" y="52" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="30" fill="#8b5cf6">Med</text>
+  <text x="164" y="52" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="30" fill="#3b82f6">Cycle</text>
+</svg>
