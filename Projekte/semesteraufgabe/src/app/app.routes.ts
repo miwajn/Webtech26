@@ -6,9 +6,10 @@ import { Signup } from './signup/signup';
 import { PageNotFound } from './page-not-found/page-not-found';
 
 export const routes: Routes = [
-{ path: "", component: Home, pathMatch: 'full' }, // full: Route nur, wenn URL sonst nichts enthält
+{ path: "", component: Home}, 
+{ path: "home", component: Home},
 { path: "login", component: Login },
 { path: "about", component: About },
 { path: "signup", component: Signup },
-{ path: "**", component: PageNotFound},  //Falls ungültige URL/ pageNotFound
+{ path: "**", component: PageNotFound, pathMatch: 'full'},  // full: Route nur, wenn URL sonst nichts enthält
 ];

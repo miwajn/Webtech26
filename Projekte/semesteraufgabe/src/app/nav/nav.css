@@ -1,0 +1,9 @@
+.container-fluid {
+   background-color: white;
+
+}
+
+.myActiveClass {
+   font-weight: bold;
+   color: rgb(141, 189, 243);
+}

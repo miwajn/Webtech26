@@ -7,11 +7,11 @@
   "newProjectRoot": "projects",
   "projects": {
     "semesteraufgabe": {
-      "projectType": "application",
+      "projectType": "medCyclelication",
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "medCycle",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
