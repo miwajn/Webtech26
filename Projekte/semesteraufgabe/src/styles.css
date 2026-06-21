@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+main {
+    background-image: url('/images/medcycle-bg-dunkel.svg');
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+p, h2 {
+    color: rgb(77, 75, 75);
+}
+
+h1, h3 {
+    color: rgb(59, 130, 246);
+}
