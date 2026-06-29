@@ -1,1 +1,38 @@
-<p>signup works!</p>
+<div class="container" id="form">
+    <h3 class="my-5">Neue Teilnehmerin</h3>
+  
+    <div class="row mb-3">
+      <label for="inputVorname" class="col-sm-2 col-form-label">Vorname</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" [formControl]="vornameControl" 
+               id="inputVorname">
+      </div>
+    </div>
+  
+    <div class="row mb-3">
+      <label for="inputNachname" class="col-sm-2 col-form-label">Nachname</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" [formControl]="nachnameControl" 
+               id="inputNachname">
+      </div>
+    </div>
+  
+    <div class="row mb-3">
+      <label for="inputEmail" class="col-sm-2 col-form-label">E-Mail</label>
+      <div class="col-sm-10">
+        <input type="email" class="form-control" [formControl]="emailControl" 
+               id="inputEmail">
+      </div>
+    </div>
+  
+    <div class="row mb-3">
+      <label for="inputIpAddress" class="col-sm-2 col-form-label">IP-Adresse</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" [formControl]="ipAdresseControl" 
+               id="inputIpAddress">
+      </div>
+    </div>
+  
+    <button class="btn btn-success" [disabled]="!isValid()" (click)="create()">Create</button>
+  
+  </div>  
