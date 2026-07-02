@@ -1,1 +1,25 @@
-<p>table works!</p>
+@if(members().length == 0) {    <!--da Members ein Signal, muss hier wie Funktion aufgerufen werden-->
+    <h3>Keine Einträge vorhanden</h3>
+}
+
+@else {
+    <h3>Alle Teilnehmer*innen</h3>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nr</th>
+            <th>Vorname</th>
+            <th>Nachname</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (member of members(); track $index) {
+            <tr>
+                <td>{{$index + 1}}</td> <!--Interpolation-->
+            </tr>
+        }
+    </tbody>
+</table>
+}
