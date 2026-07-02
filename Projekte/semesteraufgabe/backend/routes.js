@@ -3,7 +3,7 @@ const router = express.Router();
 const Member = require('./models/members')
 
 // C - POST one member
-router.post('/members', async(req, res) => {
+router.post('/members', async (req, res) => {
     const newMember = new Member({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
@@ -15,17 +15,17 @@ router.post('/members', async(req, res) => {
 });
 
 // R - GET all members
-router.get('/members', async(req, res) => {
+router.get('/members', async (req, res) => {
     const allMembers = await Member.find(); //find ist ein Promise - async ausgeführt
     console.log(allMembers);
     res.send(allMembers);
 });
 
 // R - GET one member
-router.get('/members/:id', async(req, res) => {
+router.get('/members/:id', async (req, res) => {
     const member = await Member.findOne({ _id: req.params.id });
     console.log(req.params);
-    if(member) {
+    if (member) {
         res.send(member);
     } else {
         res.status(404);
@@ -36,7 +36,7 @@ router.get('/members/:id', async(req, res) => {
 })
 
 // U - PATCH update member
-router.patch('/members/:id', async(req, res) => {
+router.patch('/members/:id', async (req, res) => {
     try {
         const member = await Member.findOne({ _id: req.params.id }) //Zunächst Prüfung ob bereits vorhanden
 
@@ -65,7 +65,7 @@ router.patch('/members/:id', async(req, res) => {
 });
 
 // D - DELETE member
-router.delete('/members/:id', async(req, res) => {
+router.delete('/members/:id', async (req, res) => {
     try {
         await Member.deleteOne({ _id: req.params.id })
         res.status(204).send()
@@ -75,4 +75,14 @@ router.delete('/members/:id', async(req, res) => {
     }
 });
 
+// POST - LOGIN member
+router.post('/login', async (req, res) => {
+    const member = await Member.findOne({ email: req.body.email });
+    if (!member || member.password !== req.body.password) {
+        return res.status(401).send({ error: 'E-Mail oder Passwort falsch.' });
+    }
+    res.send({ message: 'Login erfolgreich', member });
+});
+
 module.exports = router;    // wird nach außen zur Verfügung gestellt
+

@@ -11,15 +11,23 @@ import { Router } from '@angular/router';
 export class Login {
 
   email: string = '';
-  passwort: string = '';
+  password: string = '';
 
   constructor(private router: Router) {}  // Erzeugung privaten Zugang
 
   login(): void {
-    if (this.email === 'test@medcycle.de' && this.passwort === '1234') {
-      this.router.navigate(['/user']);
-    } else {
-      alert('E-Mail oder Passwort falsch.');
-    }
+    fetch('http://localhost:3000/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: this.email, password: this.password })  //stringify wandelt JS-Objekt in JSON-String - HTML kann keine Objekte übertragen, nur Text
+    })
+    .then(res => {
+      if (res.ok) {
+        this.router.navigate(['/user']);
+      } else {
+        alert('E-Mail oder Passwort falsch.');
+      }
+    })
+    .catch(() => alert('Server nicht erreichbar.'));  // Falls Backend nicht erreichbar
   }
 }

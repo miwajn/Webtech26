@@ -1,15 +1,16 @@
 <main class="d-flex align-items-center min-vh-100">
-    <fieldset class="container col-4 col-offset-4">
-        <legend class="ms-3">Login</legend>
+    <fieldset class="container col-4 col-offset-4" id="login">
+        <h3 class="mb-3">Login</h3>
         <form>
-            <div class="form-group m-3">
-                <input type="text" class="form-control" id="login1" placeholder="username">
+            <div class="form-group mb-3">
+                <input type="text" class="form-control" id="login1" placeholder="Benutzername" [(ngModel)]="email">
+                <!--[(ngModel)] = Angular-Direktive aus FormsModule / Two-Way-Binding von Komponente in HTML und zurück-->
             </div>
-            <div class="form-group m-3">
-                <input type="password" class="form-control" id="login2" placeholder="password">
+            <div class="form-group mb-3">
+                <input type="password" class="form-control" id="login2" placeholder="Passwort" [(ngModel)]="password">
             </div>
-            <div class="m-3">
-                <button type="submit" class="btn btn-secondary">Login</button>
+            <div class="mb-3">
+                <button type="button" class="btn btn-secondary" (click)="login()">Login</button>
             </div>
         </form>
     </fieldset>

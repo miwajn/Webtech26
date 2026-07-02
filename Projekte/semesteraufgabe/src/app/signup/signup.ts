@@ -9,28 +9,28 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 })
 
 export class Signup {
-vornameControl = new FormControl('', Validators.required);
-nachnameControl = new FormControl('');
-emailControl = new FormControl('');
-ipAdresseControl = new FormControl('');
+  vornameControl = new FormControl('', Validators.required);
+  nachnameControl = new FormControl('');
+  emailControl = new FormControl('');
+  passwordControl = new FormControl('');
 
 
-create(): void {
-  const vorname = this.vornameControl.value || '';
-  const nachname = this.nachnameControl.value;
-  const email = this.emailControl.value;
-  const ipAdresse = this.ipAdresseControl.value;
+  create(): void {
+    const vorname = this.vornameControl.value || '';
+    const nachname = this.nachnameControl.value;
+    const email = this.emailControl.value;
+    const password = this.passwordControl.value;
 
-  const newUser = { vorname, nachname, email, ipAdresse, name: () => { vorname + nachname } };
+    const newUser = { vorname, nachname, email, password, name: () => { vorname + nachname } };
 
-  console.log('Creating entry:', newUser);
-}
+    console.log('Creating entry:', newUser);
+  }
 
-isValid(): boolean {
-  return this.vornameControl.value != '' && 
-  this.nachnameControl.value != '' && 
-  this.emailControl.value != '' && 
-  this.ipAdresseControl.value != '';
-}
+  isValid(): boolean {
+    return this.vornameControl.value != '' &&
+      this.nachnameControl.value != '' &&
+      this.emailControl.value != '' &&
+      this.passwordControl.value != '';
+  }
 
 }
