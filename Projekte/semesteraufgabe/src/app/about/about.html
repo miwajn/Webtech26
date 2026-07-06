@@ -1,19 +1,33 @@
-<main class="d-flex align-items-center min-vh-100">
-    <div class="container text-center">
-        <div>
-            <h3>Gesundheit braucht Vorsorge</h3>
-            <p>Vorsorgeuntersuchungen retten Leben – das ist medizinisch belegt. 
-                Und trotzdem vergessen viele Menschen, wann der letzte Zahnarzttermin war, ob die 
-                Hautkontrolle schon drei Jahre zurückliegt oder wann der nächste Check-up fällig wäre.</p>
-            <p>MedCycle ist eine Webanwendung, die dabei hilft, Vorsorge zur Gewohnheit zu machen. 
-                Sie wurde im Rahmen eines Informatik-Studiums an der HTW Berlin entwickelt – mit dem Ziel, 
-                ein einfaches, übersichtliches Werkzeug für die persönliche Gesundheitsorganisation zu schaffen.</p>
+<main class="container-fluid py-5">
+    <div class="row g-4 px-4">
+
+        <div class="col-12">
+            <h1 class="text-center">Mehr über MedCycle</h1>
         </div>
-        <div>
-            <h3>Kontakt</h3>
-            <p>Bei Fragen oder Anmerkungen wenden Sie sich an uns: 
-                kontakt@medcycle.com
-            </p>
+
+        <div class="col-12">
+            <h2 class="text-center">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolor explicabo corporis
+                nostrum corrupti natus molestias asperiores perspiciatis ea quam reiciendis, soluta, officia quae
+                voluptate autem deleniti vero, in laudantium totam!</h2>
         </div>
-    </div>
+
+        <div class="col-12">
+            <div class="card-body">
+                <p>Vorsorgeuntersuchungen retten Leben – das ist medizinisch belegt.
+                    Und trotzdem vergessen viele Menschen, wann der letzte Zahnarzttermin war, ob die
+                    Hautkontrolle schon drei Jahre zurückliegt oder wann der nächste Check-up fällig wäre.</p>
+                <p>MedCycle ist eine Webanwendung, die dabei hilft, Vorsorge zur Gewohnheit zu machen.
+                    Sie wurde im Rahmen eines Informatik-Studiums an der HTW Berlin entwickelt – mit dem Ziel,
+                    ein einfaches, übersichtliches Werkzeug für die persönliche Gesundheitsorganisation zu schaffen.</p>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card p-4 kontakt-card" (click)="toggle($event, 0)">
+                    <h3>Kontakt</h3>
+                    <p class="kontakt-card-text hidden">Bei Fragen oder Anmerkungen wenden Sie sich an uns:
+                        kontakt@medcycle.com
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div> 
 </main>

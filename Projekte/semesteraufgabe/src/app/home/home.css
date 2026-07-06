@@ -1,10 +1,15 @@
 .vorsorge-card {
+    height: 150px;
     background-color: rgb(255, 255, 255, 0.384);
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    h5 {
+        font-weight: bold;
+    }
 }
 .vorsorge-card:hover {
     background-color: rgb(147, 196, 253, 0.205);

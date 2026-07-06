@@ -1,8 +1,8 @@
 <main class="container-fluid py-5"> <!--fluid = ohne Seitenränder-->
-    <div class="row g-4"> <!--g-4 = Gap 24px horizontal und vertikal-->
+    <div class="row g-4 px-4"> <!--g-4 = Gap 24px horizontal und vertikal + padding px-->
 
         <div class="col-12">
-            <h1 class="text-center">Gesundheit braucht Vorsorge.</h1>
+            <h1 class="text-center">Gesundheit braucht Vorsorge</h1>
         </div>
 
         <div class="col-12">
@@ -11,7 +11,7 @@
         </div>
 
         <div class="col-12">
-            <div class="card-body p-4">
+            <div class="card-body">
                 <p>
                     Vorsorge ist keine Frage des Alters - sie ist eine Entscheidung.
                     Viele Untersuchungen sollten regelmäßig stattfinden: einmal jährlich zum Zahnarzt,
@@ -28,44 +28,44 @@
         </div>
 
         <div class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100 p-4 vorsorge-card" (click)="toggle($event)">
+            <div class="card vorsorge-card p-4" (click)="toggle($event, 0)">
                 <h5>Zahnarzt</h5>
                 <p class="vorsorge-card-text hidden">Einmal jährlich zur Kontrolle empfohlen.</p>
             </div>
         </div>
 
         <div class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100 p-4 vorsorge-card" (click)="toggle($event)">
+            <div class="card vorsorge-card p-4" (click)="toggle($event, 1)">
                 <h5>Zahnreinigung</h5>
                 <p class="vorsorge-card-text hidden">Alle 6 Monate für gesundes Zahnfleisch.</p>
             </div>
         </div>
         <div class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100 p-4 vorsorge-card" (click)="toggle($event)">
+            <div class="card vorsorge-card p-4" (click)="toggle($event, 2)">
                 <h5>Hautscreening</h5>
                 <p class="vorsorge-card-text hidden">Alle 2 Jahre beim Dermatologen ab 35.</p>
             </div>
         </div>
         <div class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100 p-4 vorsorge-card" (click)="toggle($event)">
+            <div class="card vorsorge-card p-4" (click)="toggle($event, 3)">
                 <h5>Augenarzt</h5>
                 <p class="vorsorge-card-text hidden">Alle 1–2 Jahre zur Sehkraftkontrolle.</p>
             </div>
         </div>
         <div class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100 p-4 vorsorge-card" (click)="toggle($event)">
+            <div class="card vorsorge-card p-4" (click)="toggle($event, 4)">
                 <h5>Blutdruckmessung</h5>
                 <p class="vorsorge-card-text hidden">Einmal jährlich beim Hausarzt.</p>
             </div>
         </div>
         <div class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100 p-4 vorsorge-card" (click)="toggle($event)">
+            <div class="card vorsorge-card p-4" (click)="toggle($event, 5)">
                 <h5>Check-up</h5>
                 <p class="vorsorge-card-text hidden">Alle 3 Jahre ab 35 beim Hausarzt.</p>
             </div>
         </div>
         <div class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100 p-4 vorsorge-card" (click)="toggle($event)">
+            <div class="card vorsorge-card p-4" (click)="toggle($event, 6)">
                 <h5>Darmkrebs-Vorsorge</h5>
                 <p class="vorsorge-card-text hidden">Ab 50 Jahren alle 10 Jahre empfohlen.</p>
             </div>
