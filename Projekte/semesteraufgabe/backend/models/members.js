@@ -5,7 +5,6 @@ const memberSchema = new mongoose.Schema({
     lastname: String,
     email: String,      // Für Login relevant
     ipaddress: String
-    password: String    // Für Login relevant
 });
 
-module.exports = mongoose.model('Member', memberSchema);
+module.exports = mongoose.model('Member', memberSchema);    //Wird von Mongoose in Plural verwendet

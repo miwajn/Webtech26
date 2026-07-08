@@ -24,50 +24,111 @@
         </div>
 
         <div class="col-12">
-            <h2 class="text-center">Welche erstattungsfähigen Vorsorgeuntersuchungen gibt es?</h2>
+            <h2 class="text-center">Welche von den gesetzlichen Krankenkassen bezahlten Vorsorgeuntersuchungen gibt es?
+            </h2>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-3">
+        <div class="col-12 col-md-6 col-lg-6">
             <div class="card vorsorge-card p-4" (click)="toggle($event, 0)">
-                <h5>Zahnarzt</h5>
-                <p class="vorsorge-card-text hidden">Einmal jährlich zur Kontrolle empfohlen.</p>
+                <h5>Krebsfrüherkennung</h5>
+                <ul class="vorsorge-card-text hidden">
+                    <li>neu seit 1. April 2026: <b>Lungenkrebs-Früherkennung</b></li>
+                    <li><b>Genitaluntersuchung</b> (jährlich) auf Gebärmutterhalskrebs bei Frauen ab dem Alter von 20
+                        Jahren</li>
+                    <li><b>Brustuntersuchung</b> (jährlich) bei Frauen ab dem Alter von 30 Jahren</li>
+                    <li><b>Mammographie-Screening</b> (alle zwei Jahre) bei Frauen ab 50 Jahren bis zum Ende des 75.
+                        Lebensjahres (Terminvergabe Mammographie). Weitere Methoden der Brustkrebsvorsorge:
+                        Brustultraschall, Discovering Hands</li>
+                    <li><b>Prostatauntersuchung</b> (jährlich), Tastuntersuchung der Lymphknoten bei Männern ab dem
+                        Alter von 45 Jahren</li>
+                    <li><b>Ganzkörperuntersuchung</b> der gesamten Haut bei Frauen und Männern ab 35 Jahren</li>
+                    <li><b>Dickdarm- und Rektumuntersuchung</b> (jährlich), Test auf verborgenes Blut (jährlich bis zum
+                        Alter von 54 Jahren) bei Frauen und Männern ab dem Alter von 50 Jahren. Frauen und Männer ab 50
+                        Jahren: Zwei Darmspiegelungen im Abstand von 10 Jahren, Test auf verborgenes Blut alle zwei
+                        Jahre</li>
+                    <li><b>Hautkrebs-Screening</b> (alle zwei Jahre) ab dem Alter von 35 Jahren</li>
+                </ul>
             </div>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-3">
+        <div class="col-12 col-md-6 col-lg-6">
             <div class="card vorsorge-card p-4" (click)="toggle($event, 1)">
-                <h5>Zahnreinigung</h5>
-                <p class="vorsorge-card-text hidden">Alle 6 Monate für gesundes Zahnfleisch.</p>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card vorsorge-card p-4" (click)="toggle($event, 2)">
-                <h5>Hautscreening</h5>
-                <p class="vorsorge-card-text hidden">Alle 2 Jahre beim Dermatologen ab 35.</p>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card vorsorge-card p-4" (click)="toggle($event, 3)">
-                <h5>Augenarzt</h5>
-                <p class="vorsorge-card-text hidden">Alle 1–2 Jahre zur Sehkraftkontrolle.</p>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card vorsorge-card p-4" (click)="toggle($event, 4)">
-                <h5>Blutdruckmessung</h5>
-                <p class="vorsorge-card-text hidden">Einmal jährlich beim Hausarzt.</p>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card vorsorge-card p-4" (click)="toggle($event, 5)">
                 <h5>Check-up</h5>
-                <p class="vorsorge-card-text hidden">Alle 3 Jahre ab 35 beim Hausarzt.</p>
+                <ul class="vorsorge-card-text hidden">
+                    <li>Check-up (alle drei Jahre) bei Frauen und Männern ab dem Alter von 35 Jahren:</li>
+                    <ul>
+                        <li><b>Ganzkörperuntersuchung</b> mit Blutdruckmessung</li>
+                        <li><b>Blutproben</b> zur Ermittlung der Blutzucker- und Cholesterinwerte</li>
+                        <li><b>Urinuntersuchung</b></li>
+                    </ul>
+                </ul>
             </div>
         </div>
-        <div class="col-12 col-md-6 col-lg-3">
+
+        <div class="col-12 col-md-6 col-lg-6">
+            <div class="card vorsorge-card p-4" (click)="toggle($event, 2)">
+                <h5>Zahnvorsorge</h5>
+                <ul class="vorsorge-card-text hidden">
+                    <li><b>Zahnvorsorge-Untersuchungen</b> (je Halbjahr) ab dem Alter von 18 Jahren</li>
+                    <li>Untersuchung auf <b>Zahn-, Mund- und Kieferkrankheiten</b> (je Halbjahr) bei Mädchen und Jungen
+                        im Alter von 6 bis 18 Jahren, Kinder bis 6 Jahre: drei Untersuchungen</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-6">
+            <div class="card vorsorge-card p-4" (click)="toggle($event, 3)">
+                <h5>Schutzimpfungen</h5>
+                <ul class="vorsorge-card-text hidden">
+                    <li><b>Schutzimpfungen</b> sind Bestandteil des Leistungskatalogs der gesetzlichen
+                        Krankenversicherung. Darüber hinaus können Krankenkassen die Kosten für bestimmte Reiseimpfungen
+                        übernehmen.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-6">
+            <div class="card vorsorge-card p-4" (click)="toggle($event, 4)">
+                <h5>Schwangerschaft</h5>
+                <ul class="vorsorge-card-text hidden">
+                    <li>Zu der Schwangerschaftsvorsorge gehören die Betreuung während der Schwangerschaft und nach der
+                        Entbindung. Zu den Vorsorgeleistungen gehören unter anderem:</li>
+                    <ul>
+                        <li>Erkennung und Überwachung von <b>Risikoschwangerschaften</b></li>
+                        <li><b>Ultraschalldiagnostik</b></li>
+                        <li>Untersuchung auf <b>Schwangerschaftsdiabetes</b></li>
+                        <li>Untersuchung auf <b>HIV</b></li>
+                        <li>Weitere <b> auf Infektionen</b></li>
+                        <li><b>Wochenbettbetreuung</b></li>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-6">
+            <div class="card vorsorge-card p-4" (click)="toggle($event, 5)">
+                <h5>Chlamydien-Screening</h5>
+                <ul class="vorsorge-card-text hidden">
+                    <li>Untersuchung auf Chlamydien für Frauen bis zum 25. Lebensjahr (jährlich) zur Vorsorge gegen die genitale Chlamydia Trachomatis-Infektion</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-6">
             <div class="card vorsorge-card p-4" (click)="toggle($event, 6)">
-                <h5>Darmkrebs-Vorsorge</h5>
-                <p class="vorsorge-card-text hidden">Ab 50 Jahren alle 10 Jahre empfohlen.</p>
+                <h5>Früherkennung von Aneurysmen</h5>
+                <ul class="vorsorge-card-text hidden">
+                    <li>Einmalige Ultraschalluntersuchung für Männer ab 65 Jahren zur Früherkennung eines Aneurysmas der Bauchschlagader</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-6">
+            <div class="card vorsorge-card p-4" (click)="toggle($event, 6)">
+                <h5>Kinder und Jugendliche</h5>
+                <ul class="vorsorge-card-text hidden">
+                    <li>Einmalige Ultraschalluntersuchung für Männer ab 65 Jahren zur Früherkennung eines Aneurysmas der Bauchschlagader</li>
+                </ul>
             </div>
         </div>
 

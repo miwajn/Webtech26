@@ -4,14 +4,32 @@ main {
     background-attachment: fixed;
 }
 
-p, h2, h5 {
-    color: rgb(77, 75, 75);
-}
-
 h1, h3 {
     color: rgb(59, 130, 246);
 }
 
+h2 {
+    color: rgb(77, 75, 75);
+}
+
 h5 {
     color: rgb(139, 92, 246);
+}
+
+p, ul {
+    color: rgb(77, 75, 75);
+}
+
+ul li::marker {    
+   color: rgb(188, 174, 243);
+}
+
+ul ul li {
+    list-style-type: square;
+}
+
+@media screen and (min-width: 800px) {
+    p {
+        font-size: large;
+    } 
 }

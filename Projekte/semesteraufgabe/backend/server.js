@@ -8,9 +8,11 @@ const PORT = 3000;
 
 app.use(express.json()); //Alle JS-Onjekte werden in JSON umgewandelt
 app.use('/', routes);   // Alle Anfragen werden an "routes" weitergeleitet
+// app.use('/user', userRoutes)
+// app.use('/admin', adminRoutes)
 
 // connect to mongoDB
-mongoose.connect(process.env.DB_CONNECTION, { dbName: process.env.DATABASE });
+mongoose.connect(process.env.DB_CONNECTION, { dbName: process.env.DATABASE });  //Connection-Strings zur Datenbank und Verbindung
 const db = mongoose.connection;
 db.on('error', err => {
   console.log(err);

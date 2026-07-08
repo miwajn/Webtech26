@@ -10,8 +10,9 @@ router.post('/members', async (req, res) => {
         email: req.body.email,
         ipaddress: req.body.ipaddress
     })
-    await newMember.save();
-    res.send(newMember);
+    await newMember.save(); //Durch Speichern in Collection wird um Eigenschaft ID ergänzt 
+    res.status(201) // 201 = created
+    res.send(newMember);    //Wird zurückgesendet inkl. Eigenschaft ID
 });
 
 // R - GET all members
@@ -22,13 +23,13 @@ router.get('/members', async (req, res) => {
 });
 
 // R - GET one member
-router.get('/members/:id', async (req, res) => {
+router.get('/members/:id', async (req, res) => {    // ":" übergabe Parameter
     const member = await Member.findOne({ _id: req.params.id });
-    console.log(req.params);
+    console.log(req.params);    //Ausgabe aller Parameter - in Anfrage aber nur einer definiert 
     if (member) {
         res.send(member);
     } else {
-        res.status(404);
+        res.status(404);    // 404 = Fehler
         res.send({
             error: "Member does not exist!"
         });
@@ -68,7 +69,7 @@ router.patch('/members/:id', async (req, res) => {
 router.delete('/members/:id', async (req, res) => {
     try {
         await Member.deleteOne({ _id: req.params.id })
-        res.status(204).send()
+        res.status(204).send()     // 204 = no content
     } catch {
         res.status(404)
         res.send({ error: "Member does not exist!" })

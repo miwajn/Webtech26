@@ -2,13 +2,13 @@
    background-color: white;
 }
 
-.nav-link::after {   //:after-Pseudoelement verhindert springen - reserviert unsichtbar die Breite des fetten Textes
-   content: attr(data-text); // attr= attribut - liest entsprechenden Wert im html-code aus - data Pflicht bei Namensgebung
+.nav-link::after {   /*after-Pseudoelement verhindert springen - reserviert unsichtbar die Breite des fetten Textes*/
+   content: attr(data-text); /* attr= attribut - liest entsprechenden Wert im html-code aus - data Pflicht bei Namensgebung*/
    display: block;
    font-weight: bold;
    height: 0;
-   visibility: hidden; // Macht Text unsichtbar 
-   overflow: hidden; //Verhindert, dass unsichtbare Text herausragt aus Element
+   visibility: hidden; /* Macht Text unsichtbar */
+   overflow: hidden; /*Verhindert, dass unsichtbare Text herausragt aus Element*/
  }
  
  .myActiveClass {
