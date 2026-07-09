@@ -16,6 +16,11 @@ h5 {
     color: rgb(139, 92, 246);
 }
 
+h6 {
+    color: rgb(77, 75, 75);
+    font-weight: bold;
+}
+
 p, ul {
     color: rgb(77, 75, 75);
 }

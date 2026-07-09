@@ -1,0 +1,144 @@
+<main>
+    <div class="container py-4">
+
+        <header class="mb-4">
+            <p>Persönlicher Gesundheitsbereich</p>
+            <h1>Vorsorge-Pass</h1>
+            <p>
+                Hallo {{ userName }}, willkommen zu deiner persönlichen Terminübersicht! <br> Hier kannst du Vorsorgetermine eintragen und einsehen wann deine nächsten Vorsorgen anstehen.
+            </p>
+        </header>
+
+        <!-- Formular zum Eintragen eines neuen Termins -->
+        <div class="row g-4">
+            <div class="col-12 col-lg-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5>Neuen Termin eintragen</h5>
+
+                        <form (ngSubmit)="terminHinzufuegen()">
+                            <div class="mb-3">
+                                <label for="typAuswahl" class="form-label">Art des Termins</label>
+                                <select id="typAuswahl" class="form-select" name="typAuswahl"
+                                    [(ngModel)]="ausgewaehlterTypId">
+                                    <option *ngFor="let typ of alleTypen()" [value]="typ.id">
+                                        {{ typ.name }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="neueArtCheckbox"
+                                    name="neueArtCheckbox" [(ngModel)]="zeigeNeueArt" />
+                                <label class="form-check-label" for="neueArtCheckbox">
+                                    eigene Art hinzufügen
+                                </label>
+                            </div>
+
+                            <div class="mb-3" *ngIf="zeigeNeueArt">
+                                <input type="text" class="form-control mb-2" name="neuerTypName"
+                                    placeholder="z. B. Physiotherapie-Kontrolle" [(ngModel)]="neuerTypName" />
+                                <label class="form-label small">Empfohlenes Intervall (Monate)</label>
+                                <input type="number" class="form-control" name="neuerTypMonate" min="1"
+                                    [(ngModel)]="neuerTypMonate" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="datumInput" class="form-label">Datum des Termins</label>
+                                <input type="date" id="datumInput" class="form-control" name="datum" [(ngModel)]="datum"
+                                    [max]="heute" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="notizInput" class="form-label">Notiz (optional)</label>
+                                <input type="text" id="notizInput" class="form-control" name="notiz"
+                                    placeholder="z. B. Praxis, Befund, Erinnerung" [(ngModel)]="notiz" />
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi" [ngClass]="justSaved ? 'bi-check-lg' : 'bi-plus-lg'"></i>
+                                {{ justSaved ? 'Eingetragen' : 'Termin eintragen' }}
+                            </button>
+
+                            <p *ngIf="speicherFehler">
+                                Speichern hat nicht geklappt. Bitte erneut versuchen.
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Übersicht aller Vorsorgearten -->
+        <div class="row g-3">
+            <div class="col-12 col-sm-6 col-lg-4" *ngFor="let eintrag of uebersicht()">
+                <div class="card h-100">
+                    <div class="card-body">
+
+                        <!-- nachher -->
+                        <h6>
+                            <i class="bi" style="font-size:x-large ; color: rgb(59, 130, 246)"
+                                [ngClass]="eintrag.typ.icon"></i>
+                            {{ eintrag.typ.name }}
+                        </h6>
+
+                        <ng-container *ngIf="eintrag.letzterTermin; else keinTermin">
+                            <p>
+                                Letzter Termin: <strong>{{ formatiereDatum(eintrag.letzterTermin.datum)
+                                    }}</strong>
+                            </p>
+                            <p>
+                                Nächste Vorsorge: <strong>{{ formatiereDatum(eintrag.naechsterTerminText!)
+                                    }}</strong>
+                            </p>
+                            <div class="progress mb-2" style="height: 8px;">
+                                <div class="progress-bar" [ngClass]="'bg-' + eintrag.farbe"
+                                    [style.width.%]="eintrag.prozent"></div>
+                            </div>
+                            <span class="badge" [ngClass]="'bg-' + eintrag.farbe">{{ eintrag.status }}</span>
+                            <span class="text-muted small ms-2">{{ eintrag.tageText }}</span>
+                        </ng-container>
+
+                        <ng-template #keinTermin>
+                            <p> Noch kein Termin eingetragen.</p>
+                            <p> Empfohlenes Intervall: alle {{ eintrag.typ.monate }} Monate</p>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Verlauf aller eingetragenen Termine -->
+    <div class="card shadow-sm mt-4">
+        <div class="card-body">
+            <h5>Verlauf</h5>
+
+            <p *ngIf="verlauf().length === 0">
+                Noch keine Termine eingetragen — trag oben deinen ersten Termin ein.
+            </p>
+
+            <ul class="list-group list-group-flush" *ngIf="verlauf().length > 0">
+                <li class="list-group-item d-flex justify-content-between align-items-center"
+                    *ngFor="let termin of verlauf()">
+                    <div>
+                        <div>
+                            <i class="bi" [ngClass]="termin.typIcon"></i>
+                            <strong>{{ termin.typName }}</strong>
+                        </div>
+
+                        <div class="text-muted small" *ngIf="termin.notiz">{{ termin.notiz }}</div>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="text-muted small">{{ formatiereDatum(termin.datum) }}</span>
+
+                        <button class="btn btn-sm btn-outline-danger" (click)="terminLoeschen(termin.id)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</main>

@@ -11,7 +11,7 @@ app.use('/', routes);   // Alle Anfragen werden an "routes" weitergeleitet
 // app.use('/user', userRoutes)
 // app.use('/admin', adminRoutes)
 
-// connect to mongoDB
+// Verbindung zu MongoDB
 mongoose.connect(process.env.DB_CONNECTION, { dbName: process.env.DATABASE });  //Connection-Strings zur Datenbank und Verbindung
 const db = mongoose.connection;
 db.on('error', err => {
@@ -21,6 +21,7 @@ db.once('open', () => {
     console.log('connected to DB');
 });
 
+// Start des Servers
 app.listen(PORT, (error) => {
     if (error) {
         console.log(error);
