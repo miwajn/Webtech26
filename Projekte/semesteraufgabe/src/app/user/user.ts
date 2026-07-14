@@ -1,7 +1,5 @@
-
 import { Component, inject, OnInit } from '@angular/core';
 import { Backend } from '../../lib/shared/backend';
-import { User as UserModel} from '../../lib/shared/user';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -42,8 +40,7 @@ type UebersichtEintrag = {
 export class User implements OnInit{
 
   private bs = inject(Backend);
-  users: UserModel[] = [];
-  
+    
   userName = 'Alex';
 
   // Fest eingebaute Vorsorgearten
@@ -60,6 +57,7 @@ export class User implements OnInit{
     { id: 'u18', name: 'Kinder und Jugendliche', monate: 12, icon: 'bi-gender-male' },    
   ];
 
+  // Über Backend/ Mongo-DB
   eigeneTypen: VorsorgeTyp[] = [];
   termine: Termin[] = [];
 
@@ -75,15 +73,7 @@ export class User implements OnInit{
 
   heute = this.heuteAlsText();
 
-  private speicherSchluessel = 'vorsorgepass-daten';
-
-  // Nur EIN ngOnInit pro Klasse: beides zusammengeführt
   ngOnInit(): void {
-    this.bs
-      .getAll()
-      .then((response) => (this.users = response))
-      .then((users) => console.log('users in UserComponent: ', users));
-
     this.ladeDaten();
   }
 
@@ -93,40 +83,42 @@ export class User implements OnInit{
   }
 
   // ---------------------------------------------------------------------
-  // Speichern und Laden (localStorage)
+  // Laden vom Backend (Express + MongoDB via Mongoose)
   // ---------------------------------------------------------------------
 
-  private ladeDaten(): void {
-    const gespeichert = localStorage.getItem(this.speicherSchluessel);
-    if (gespeichert === null) return;
-
+  private async ladeDaten(): Promise<void> {
     try {
-      const daten = JSON.parse(gespeichert);
-      this.termine = daten.termine || [];
-      this.eigeneTypen = daten.eigeneTypen || [];
+      const [termineVomBackend, typenVomBackend] = await Promise.all([
+        this.bs.getAlleTermine(),
+        this.bs.getAlleVorsorgeTypen(),
+      ]);
+
+      // MongoDB liefert "_id" - wir mappen das intern auf "id",
+      // damit das Template unverändert bleiben kann.
+      this.termine = termineVomBackend.map((t) => ({
+        id: t._id!,
+        typId: t.typId,
+        datum: t.datum,
+        notiz: t.notiz,
+      }));
+
+      this.eigeneTypen = typenVomBackend.map((typ) => ({
+        id: typ._id!,
+        name: typ.name,
+        monate: typ.monate,
+        icon: typ.icon,
+      }));
+
+      this.ladeFehler = false;
     } catch (fehler) {
-      console.error('Gespeicherte Daten konnten nicht gelesen werden:', fehler);
+      console.error('Daten konnten nicht geladen werden:', fehler);
+      this.ladeFehler = true;
     }
   }
 
-  private speichereDaten(): boolean {
-    try {
-      const daten = { termine: this.termine, eigeneTypen: this.eigeneTypen };
-      localStorage.setItem(this.speicherSchluessel, JSON.stringify(daten));
-      return true;
-    } catch (fehler) {
-      console.error('Speichern fehlgeschlagen:', fehler);
-      return false;
-    }
-  }
-
   // ---------------------------------------------------------------------
-  // Hilfsfunktionen für Datum und ID
+  // Hilfsfunktionen für Datum
   // ---------------------------------------------------------------------
-
-  private neueId(): string {
-    return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-  }
 
   private heuteAlsText(): string {
     return new Date().toISOString().slice(0, 10);
@@ -148,44 +140,63 @@ export class User implements OnInit{
   }
 
   // ---------------------------------------------------------------------
-  // Neuen Termin eintragen
+  // Neuen Termin eintragen (POST ans Backend)
   // ---------------------------------------------------------------------
 
-  terminHinzufuegen(): void {
+  async terminHinzufuegen(): Promise<void> {
     if (!this.datum) return;
 
     let typId = this.ausgewaehlterTypId;
 
-    if (this.zeigeNeueArt) {
-      const name = this.neuerTypName.trim();
-      if (name === '') return;
+    try {
+      // Falls eine neue, eigene Vorsorgeart angelegt wird: zuerst den Typ speichern
+      if (this.zeigeNeueArt) {
+        const name = this.neuerTypName.trim();
+        if (name === '') return;
 
-      const neuerTyp: VorsorgeTyp = {
-        id: this.neueId(),
-        name: name,
-        monate: Math.max(1, Number(this.neuerTypMonate) || 12),
-        icon: 'bi-calendar3',
-      };
-      this.eigeneTypen.push(neuerTyp);
-      typId = neuerTyp.id;
+        const neuerTypVomBackend = await this.bs.legeVorsorgeTypAn({
+          name: name,
+          monate: Math.max(1, Number(this.neuerTypMonate) || 12),
+          icon: 'bi-calendar3',
+        });
 
-      // Formular für die neue Art wieder zurücksetzen
-      this.neuerTypName = '';
-      this.neuerTypMonate = 12;
-      this.zeigeNeueArt = false;
-      this.ausgewaehlterTypId = typId;
+        const neuerTyp: VorsorgeTyp = {
+          id: neuerTypVomBackend._id!,
+          name: neuerTypVomBackend.name,
+          monate: neuerTypVomBackend.monate,
+          icon: neuerTypVomBackend.icon,
+        };
+        this.eigeneTypen.push(neuerTyp);
+        typId = neuerTyp.id;
+
+        // Formular für die neue Art wieder zurücksetzen
+        this.neuerTypName = '';
+        this.neuerTypMonate = 12;
+        this.zeigeNeueArt = false;
+        this.ausgewaehlterTypId = typId;
+      }
+
+      // Danach den eigentlichen Termin speichern
+      const neuerTerminVomBackend = await this.bs.legeTerminAn({
+        typId: typId,
+        datum: this.datum,
+        notiz: this.notiz.trim(),
+      });
+
+      this.termine.push({
+        id: neuerTerminVomBackend._id!,
+        typId: neuerTerminVomBackend.typId,
+        datum: neuerTerminVomBackend.datum,
+        notiz: neuerTerminVomBackend.notiz,
+      });
+
+      this.speicherFehler = false;
+      this.notiz = '';
+      this.zeigeKurzeErfolgsmeldung();
+    } catch (fehler) {
+      console.error('Speichern fehlgeschlagen:', fehler);
+      this.speicherFehler = true;
     }
-
-    this.termine.push({
-      id: this.neueId(),
-      typId: typId,
-      datum: this.datum,
-      notiz: this.notiz.trim(),
-    });
-
-    this.speicherFehler = !this.speichereDaten();
-    this.notiz = '';
-    this.zeigeKurzeErfolgsmeldung();
   }
 
   private zeigeKurzeErfolgsmeldung(): void {
@@ -196,16 +207,21 @@ export class User implements OnInit{
   }
 
   // ---------------------------------------------------------------------
-  // Termin löschen
+  // Termin löschen (DELETE ans Backend)
   // ---------------------------------------------------------------------
 
-  terminLoeschen(id: string): void {
-    this.termine = this.termine.filter((termin) => termin.id !== id);
-    this.speichereDaten();
+  async terminLoeschen(id: string): Promise<void> {
+    try {
+      await this.bs.loescheTermin(id);
+      this.termine = this.termine.filter((termin) => termin.id !== id);
+    } catch (fehler) {
+      console.error('Löschen fehlgeschlagen:', fehler);
+      this.speicherFehler = true;
+    }
   }
 
   // ---------------------------------------------------------------------
-  // Daten fürs Template aufbereiten
+  // Daten fürs Template aufbereiten (unverändert)
   // ---------------------------------------------------------------------
 
   // Eine Karte pro Vorsorgeart, mit Status, Fortschritt und Text
@@ -256,7 +272,7 @@ export class User implements OnInit{
     });
   }
 
-  // Alle Termine, neuester zuerst, mit Name und Emoji der Vorsorgeart
+  // Alle Termine, neuester zuerst, mit Name und Icon der Vorsorgeart
   verlauf() {
     return [...this.termine]
       .sort((a, b) => new Date(b.datum).getTime() - new Date(a.datum).getTime())
