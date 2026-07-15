@@ -1,6 +1,8 @@
 export interface User {
-    firstname: String,
-    lastname: String,
-    email: String,      // Für Login relevant
-    ipaddress: String
+    _id?: string;
+    firstname: string;
+    lastname: string;
+    email: string;      // Für Login relevant
+    ipaddress: string;
+    password?: string;   // Für Login relevant
 }

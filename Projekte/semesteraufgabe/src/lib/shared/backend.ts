@@ -1,25 +1,5 @@
 import { Injectable } from '@angular/core';
 import { User } from './user';
-
-@Injectable({
-  providedIn: 'root',
-})
-
-export class Backend {
-  apiURL = 'http://localhost:3000/'
-
-  constructor() { }
-
-  async getAll(): Promise<User[]> {
-    let response = await fetch(this.apiURL + '/user');
-    let users = await response.json();
-    console.log('Users in service (getAll) : ', users)
-    return users;
-  }
-}
-
-import { Injectable } from '@angular/core';
-import { User } from './user';
 import { Termin } from './termin';
 import { VorsorgeTyp } from './vorsorge-typ';
 
@@ -32,11 +12,57 @@ export class Backend {
 
   constructor() { }
 
+  // CRUD: User
+
   async getAll(): Promise<User[]> {
-    let response = await fetch(this.apiURL + '/user');
+    let response = await fetch(this.apiURL + '/members');
     let users = await response.json();
     console.log('Users in service (getAll) : ', users)
     return users;
+  }
+
+  async getOne(id: string): Promise<User> {
+    let response = await fetch(this.apiURL + '/members/' + id);
+    let user = await response.json();
+    console.log('User in service (getOne) : ', user)
+    return user;
+  }
+
+  async legeUserAn(user: User): Promise<User> {
+    let response = await fetch(this.apiURL + '/members', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(user),
+    });
+    let neuerUser = await response.json();
+    console.log('User in service (legeUserAn) : ', neuerUser)
+    return neuerUser;
+  }
+
+  async aktualisiereUser(id: string, aenderungen: Partial<User>): Promise<User> {
+    let response = await fetch(this.apiURL + '/members/' + id, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(aenderungen),
+    });
+    let user = await response.json();
+    console.log('User in service (aktualisiereUser) : ', user)
+    return user;
+  }
+
+  async loescheUser(id: string): Promise<void> {
+    await fetch(this.apiURL + '/members/' + id, { method: 'DELETE' });
+  }
+
+  async login(email: string, password: string): Promise<{ message: string; member?: User }> {
+    let response = await fetch(this.apiURL + '/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    let ergebnis = await response.json();
+    console.log('Ergebnis in service (login) : ', ergebnis)
+    return ergebnis;
   }
 
   // CRUD: Termine
