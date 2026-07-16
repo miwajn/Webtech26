@@ -12,8 +12,6 @@ export class Backend {
 
   constructor() { }
 
-  // CRUD: User
-
   async getAll(): Promise<User[]> {
     let response = await fetch(this.apiURL + '/members');
     let users = await response.json();
@@ -62,10 +60,15 @@ export class Backend {
     });
     let ergebnis = await response.json();
     console.log('Ergebnis in service (login) : ', ergebnis)
+    if (!response.ok) {
+      throw new Error(ergebnis.error || 'Login fehlgeschlagen.');
+    }
     return ergebnis;
   }
 
-  // CRUD: Termine
+  // ---------------------------------------------------------------------
+  // Termine (CRUD)
+  // ---------------------------------------------------------------------
 
   async getAlleTermine(): Promise<Termin[]> {
     const response = await fetch(this.apiURL + '/termine');
@@ -94,7 +97,9 @@ export class Backend {
     await fetch(this.apiURL + '/termine/' + id, { method: 'DELETE' });
   }
 
-  // CRUD: Vorsorgetyp
+  // ---------------------------------------------------------------------
+  // Eigene Vorsorgearten (CRUD)
+  // ---------------------------------------------------------------------
 
   async getAlleVorsorgeTypen(): Promise<VorsorgeTyp[]> {
     const response = await fetch(this.apiURL + '/vorsorgetypen');

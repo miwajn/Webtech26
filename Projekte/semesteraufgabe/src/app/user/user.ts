@@ -70,6 +70,7 @@ export class User implements OnInit{
   notiz = '';
   justSaved = false;
   speicherFehler = false;
+  ladeFehler = false;
 
   heute = this.heuteAlsText();
 

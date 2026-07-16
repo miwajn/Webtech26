@@ -3,6 +3,5 @@ export interface User {
     firstname: string;
     lastname: string;
     email: string;      // Für Login relevant
-    ipaddress: string;
     password?: string;   // Für Login relevant
 }

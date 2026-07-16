@@ -12,7 +12,7 @@ router.post('/members', async (req, res) => {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
-        ipaddress: req.body.ipaddress
+        password: req.body.password,
     })
     await newMember.save(); //Durch Speichern in Collection wird um Eigenschaft ID ergänzt 
     res.status(201) // 201 = created
@@ -57,8 +57,8 @@ router.patch('/members/:id', async (req, res) => {
             member.email = req.body.email
         }
 
-        if (req.body.ipaddress) {
-            member.ipaddress = req.body.ipaddress
+        if (req.body.password) {
+            member.password = req.body.password
         }
 
         await Member.updateOne({ _id: req.params.id }, member);

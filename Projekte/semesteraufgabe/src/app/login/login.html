@@ -1,17 +1,23 @@
 <main class="d-flex align-items-center min-vh-100">
     <fieldset class="container col-4 col-offset-4" id="login">
+
         <h3 class="mb-3">Login</h3>
+
         <form>
             <div class="form-group mb-3">
-                <input type="text" class="form-control" id="login1" placeholder="Benutzername" [(ngModel)]="email">
-                <!--[(ngModel)] = Angular-Direktive aus FormsModule / Two-Way-Binding von Komponente in HTML und zurück-->
+                <input type="text" class="form-control" placeholder="Benutzername" [formControl]="emailControl" id="benutzername">
+                <!--[formControl] = Angular-Direktive aus ReactiveFormsModule / bindet das Input-Feld an ein FormControl-Objekt in der Komponente-->
             </div>
             <div class="form-group mb-3">
-                <input type="password" class="form-control" id="login2" placeholder="Passwort" [(ngModel)]="password">
+                <input type="password" class="form-control" placeholder="Passwort" [formControl]="passwordControl" id="password">
             </div>
             <div class="mb-3">
-                <button type="button" class="btn btn-secondary" (click)="login()">Login</button>
+                <button type="button" class="btn btn-secondary" [disabled]="!isValid()" (click)="login()">Login</button>
             </div>
+
+            <p *ngIf="loginFehler" class="text-danger">
+                E-Mail oder Passwort falsch.
+            </p>
         </form>
     </fieldset>
 </main>
