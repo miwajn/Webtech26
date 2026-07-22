@@ -1,178 +1,177 @@
+// Funktionen zur Verwaltung und Beantwortung der requests
+
 const express = require('express');
 const router = express.Router();
-const Member = require('./models/members')
+const User = require('./models/User')
 const Termin = require('./models/Termin');
 const VorsorgeTyp = require('./models/VorsorgeTyp');
 
-//____Model Member____
+//____Model User____
 
-// C - POST one member
-router.post('/members', async (req, res) => {
-    const newMember = new Member({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        email: req.body.email,
-        password: req.body.password,
-    })
-    await newMember.save(); //Durch Speichern in Collection wird um Eigenschaft ID ergänzt 
-    res.status(201) // 201 = created
-    res.send(newMember);    //Wird zurückgesendet inkl. Eigenschaft ID
+// C - POST one user
+router.post('/user', async (req, res) => {
+    const email = req.body.email;
+
+    let user = await User.findOne({ email: email });
+    console.log('user nach username : ', user);
+    if (user) {
+        res.status(400);    // 400 = Bad request
+        res.send({ message: "Die Email verfügt bereits über ein Nutzerkonto" });
+    }
+    else {
+        const newUser = new User({
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            email: email,   // oben bereits gesetzt
+            password: req.body.password,
+        })
+        await newUser.save(); // save() von MongoDB zur Verfügung gestellt. Durch Speichern in Collection wird um Eigenschaft _id ergänzt 
+        res.status(201)     // 201 = created
+        res.send(newUser);  //Wird zurückgesendet inkl. Eigenschaft ID
+    }
 });
 
-// R - GET all members
-router.get('/members', async (req, res) => {
-    const allMembers = await Member.find(); //find ist ein Promise - async ausgeführt
-    console.log(allMembers);
-    res.send(allMembers);
+// POST - LOGIN user
+router.post('/login', async (req, res) => {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user || user.password !== req.body.password) {
+        return res.status(401).send({ error: 'E-Mail oder Passwort falsch.' });
+    }
+    res.send({ message: 'Login erfolgreich', user });
 });
 
-// R - GET one member
-router.get('/members/:id', async (req, res) => {    // ":" übergabe Parameter
-    const member = await Member.findOne({ _id: req.params.id });
-    console.log(req.params);    //Ausgabe aller Parameter - in Anfrage aber nur einer definiert 
-    if (member) {
-        res.send(member);
-    } else {
-        res.status(404);    // 404 = Fehler
+// R - GET all user
+router.get('/user', async (req, res) => {
+    const allUsers = await User.find(); //find ist ein Promise - async ausgeführt
+    console.log(allUsers);
+    res.send(allUsers);
+});
+
+// R - GET one user via id
+router.get('/user/:id', async (req, res) => {    // ":" übergabe Parameter hier wird id gewählt
+    try {
+        const user = await User.findOne({ _id: req.params.id });    // re.params.id - da oben Parameter id genannt
+        console.log('parameter: ', req.params);
+        res.status(200);    // 200 = ok
+        res.send(user);
+    } catch {
+        res.status(404);    // 404 = Not found
         res.send({
-            error: "Member does not exist!"
+            error: "User does not exist!"
         });
     }
 })
 
-// U - PATCH update member
-router.patch('/members/:id', async (req, res) => {
+// U - PATCH update user
+router.patch('/user/:id', async (req, res) => {
     try {
-        const member = await Member.findOne({ _id: req.params.id }) //Zunächst Prüfung ob bereits vorhanden
+        const user = await User.findOne({ _id: req.params.id }) //Zunächst Prüfung ob bereits vorhanden
 
-        if (req.body.firstname) {
-            member.firstname = req.body.firstname
-        }
+        if (req.body.firstname) user.firstname = req.body.firstname;
+        if (req.body.lastname) user.lastname = req.body.lastname;
+        if (req.body.email) user.email = req.body.email;
+        if (req.body.password) user.password = req.body.password;
 
-        if (req.body.lastname) {
-            member.lastname = req.body.lastname
-        }
-
-        if (req.body.email) {
-            member.email = req.body.email
-        }
-
-        if (req.body.password) {
-            member.password = req.body.password
-        }
-
-        await Member.updateOne({ _id: req.params.id }, member);
-        res.send(member)
+        await User.updateOne({ _id: req.params.id }, user); // updateOne() MongoDB
+        res.status(200);    //Statuscode = ok
+        res.send(user);
     } catch {
+        res.status(404);
+        res.send({ error: "User does not exist!" })
+    }
+});
+
+// D - DELETE user
+router.delete('/user/:id', async (req, res) => {
+
+    const result = await User.deleteOne({ _id: req.params.id })
+    if (result.deletedCount == 1) {
+        res.status(204);
+        res.send();
+    }
+    else {
         res.status(404)
-        res.send({ error: "Member does not exist!" })
+        res.send({ error: "User does not exist!" })
     }
 });
 
-// D - DELETE member
-router.delete('/members/:id', async (req, res) => {
-    try {
-        await Member.deleteOne({ _id: req.params.id })
-        res.status(204).send()     // 204 = no content
-    } catch {
-        res.status(404)
-        res.send({ error: "Member does not exist!" })
-    }
-});
 
-// POST - LOGIN member
-router.post('/login', async (req, res) => {
-    const member = await Member.findOne({ email: req.body.email });
-    if (!member || member.password !== req.body.password) {
-        return res.status(401).send({ error: 'E-Mail oder Passwort falsch.' });
-    }
-    res.send({ message: 'Login erfolgreich', member });
-});
+//____Model termine____
 
-module.exports = router;    // wird nach außen zur Verfügung gestellt
-
-//____Model Termine____
-
-// C - POST einen neuen Termin anlegen
+// C - POST einen neuen termin anlegen
 router.post('/termine', async (req, res) => {
     try {
-        const neuerTermin = new Termin({
+        const neuertermin = new termin({
             typId: req.body.typId,
             datum: req.body.datum,
             notiz: req.body.notiz
         });
-        await neuerTermin.save(); // Speichern in Collection ergänzt Eigenschaft _id
+        await neuertermin.save(); // Speichern in Collection ergänzt Eigenschaft _id
         res.status(201); // 201 = created
-        res.send(neuerTermin); // Wird zurückgesendet inkl. Eigenschaft _id
+        res.send(neuertermin); // Wird zurückgesendet inkl. Eigenschaft _id
     } catch (fehler) {
         res.status(400);
-        res.send({ error: 'Termin konnte nicht angelegt werden.' });
+        res.send({ error: 'termin konnte nicht angelegt werden.' });
     }
 });
 
-// R - GET alle Termine
+// R - GET alle termine
 router.get('/termine', async (req, res) => {
-    const alleTermine = await Termin.find(); // find ist ein Promise - async ausgeführt
-    res.send(alleTermine);
+    const alletermine = await termin.find(); // find ist ein Promise - async ausgeführt
+    res.send(alletermine);
 });
 
-// R - GET einen Termin
+// R - GET einen termin
 router.get('/termine/:id', async (req, res) => {
-    const termin = await Termin.findOne({ _id: req.params.id });
+    const termin = await termin.findOne({ _id: req.params.id });
     if (termin) {
         res.send(termin);
     } else {
-        res.status(404); // 404 = Fehler
-        res.send({ error: 'Termin nicht gefunden.' });
+        res.status(404); // 404 = Not found
+        res.send({ error: 'termin nicht gefunden.' });
     }
 });
 
-// U - PATCH Termin aktualisieren
+// U - PATCH termin aktualisieren
 router.patch('/termine/:id', async (req, res) => {
     try {
-        const termin = await Termin.findOne({ _id: req.params.id }); // Zunächst Prüfung ob bereits vorhanden
+        const termin = await termin.findOne({ _id: req.params.id }); // Zunächst Prüfung ob bereits vorhanden
 
         if (!termin) {
-            res.status(404);
-            res.send({ error: 'Termin nicht gefunden.' });
+            res.status(404);    // 404 = Not found
+            res.send({ error: 'termin nicht gefunden.' });
             return;
         }
 
-        if (req.body.typId) {
-            termin.typId = req.body.typId;
-        }
-        if (req.body.datum) {
-            termin.datum = req.body.datum;
-        }
-        if (req.body.notiz !== undefined) {
-            termin.notiz = req.body.notiz;
-        }
+        if (req.body.typId) termin.typId = req.body.typId;
+        if (req.body.datum) termin.datum = req.body.datum;
+        if (req.body.notiz !== undefined) termin.notiz = req.body.notiz;
 
-        await Termin.updateOne({ _id: req.params.id }, termin);
+        await termin.updateOne({ _id: req.params.id }, termin);
         res.send(termin);
     } catch {
-        res.status(404);
-        res.send({ error: 'Termin nicht gefunden.' });
+        res.status(404);    // 404 = Not found
+        res.send({ error: 'termin nicht gefunden.' });
     }
 });
 
-// D - DELETE Termin
+// D - DELETE termin
 router.delete('/termine/:id', async (req, res) => {
     try {
-        await Termin.deleteOne({ _id: req.params.id });
+        await termin.deleteOne({ _id: req.params.id });
         res.status(204).send(); // 204 = no content
     } catch {
-        res.status(404);
-        res.send({ error: 'Termin nicht gefunden.' });
+        res.status(404);    // 404 = Not found
+        res.send({ error: 'termin nicht gefunden.' });
     }
 });
 
-//____Model Vorsorgetyp____
+//____Model vorsorgetyp____
 
 // C - POST eine neue eigene Vorsorgeart anlegen
 router.post('/vorsorgetypen', async (req, res) => {
     try {
-        const neuerTyp = new VorsorgeTyp({
+        const neuerTyp = new vorsorgeTyp({
             name: req.body.name,
             monate: req.body.monate,
             icon: req.body.icon || 'bi-calendar3'
@@ -188,17 +187,17 @@ router.post('/vorsorgetypen', async (req, res) => {
 
 // R - GET alle eigenen Vorsorgearten
 router.get('/vorsorgetypen', async (req, res) => {
-    const alleTypen = await VorsorgeTyp.find();
+    const alleTypen = await vorsorgeTyp.find();
     res.send(alleTypen);
 });
 
 // R - GET eine eigene Vorsorgeart
 router.get('/vorsorgetypen/:id', async (req, res) => {
-    const typ = await VorsorgeTyp.findOne({ _id: req.params.id });
+    const typ = await vorsorgeTyp.findOne({ _id: req.params.id });
     if (typ) {
         res.send(typ);
     } else {
-        res.status(404);
+        res.status(404);    // 404 = Not found
         res.send({ error: 'Vorsorgeart nicht gefunden.' });
     }
 });
@@ -206,28 +205,22 @@ router.get('/vorsorgetypen/:id', async (req, res) => {
 // U - PATCH eigene Vorsorgeart aktualisieren
 router.patch('/vorsorgetypen/:id', async (req, res) => {
     try {
-        const typ = await VorsorgeTyp.findOne({ _id: req.params.id });
+        const typ = await vorsorgeTyp.findOne({ _id: req.params.id });
 
         if (!typ) {
-            res.status(404);
+            res.status(404);    // 404 = Not found
             res.send({ error: 'Vorsorgeart nicht gefunden.' });
             return;
         }
 
-        if (req.body.name) {
-            typ.name = req.body.name;
-        }
-        if (req.body.monate) {
-            typ.monate = req.body.monate;
-        }
-        if (req.body.icon) {
-            typ.icon = req.body.icon;
-        }
+        if (req.body.name) typ.name = req.body.name;
+        if (req.body.monate) typ.monate = req.body.monate;
+        if (req.body.icon) typ.icon = req.body.icon;
 
-        await VorsorgeTyp.updateOne({ _id: req.params.id }, typ);
+        await vorsorgeTyp.updateOne({ _id: req.params.id }, typ);
         res.send(typ);
     } catch {
-        res.status(404);
+        res.status(404);    // 404 = Not found
         res.send({ error: 'Vorsorgeart nicht gefunden.' });
     }
 });
@@ -235,10 +228,10 @@ router.patch('/vorsorgetypen/:id', async (req, res) => {
 // D - DELETE eigene Vorsorgeart
 router.delete('/vorsorgetypen/:id', async (req, res) => {
     try {
-        await VorsorgeTyp.deleteOne({ _id: req.params.id });
+        await vorsorgeTyp.deleteOne({ _id: req.params.id });
         res.status(204).send();
     } catch {
-        res.status(404);
+        res.status(404);    // 404 = Not found
         res.send({ error: 'Vorsorgeart nicht gefunden.' });
     }
 });

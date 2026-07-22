@@ -5,7 +5,7 @@
 
         <form>
             <div class="form-group mb-3">
-                <input type="text" class="form-control" placeholder="Benutzername" [formControl]="emailControl" id="benutzername">
+                <input type="text" class="form-control" placeholder="Email" [formControl]="emailControl" id="email">
                 <!--[formControl] = Angular-Direktive aus ReactiveFormsModule / bindet das Input-Feld an ein FormControl-Objekt in der Komponente-->
             </div>
             <div class="form-group mb-3">
@@ -15,8 +15,8 @@
                 <button type="button" class="btn btn-secondary" [disabled]="!isValid()" (click)="login()">Login</button>
             </div>
 
-            <p *ngIf="loginFehler" class="text-danger">
-                E-Mail oder Passwort falsch.
+            <p *ngIf="loginFehler()" class="text-danger">
+                Email oder Passwort falsch.
             </p>
         </form>
     </fieldset>

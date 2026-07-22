@@ -6,6 +6,7 @@ import { Backend } from '../../lib/shared/backend';
 
 @Component({
   selector: 'app-signup',
+  standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './signup.html',
   styleUrl: './signup.css',
@@ -26,7 +27,6 @@ export class Signup {
   async create(): Promise<void> {
     if (!this.isValid()) return;
 
-    // Feldnamen an dein Mongoose-Schema (firstname, lastname, ...) angepasst
     const newUser = {
       firstname: this.vornameControl.value || '',
       lastname: this.nachnameControl.value || '',

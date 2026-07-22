@@ -5,9 +5,48 @@
             <p>Persönlicher Gesundheitsbereich</p>
             <h1>Vorsorge-Pass</h1>
             <p>
-                Hallo {{ userName }}, willkommen zu deiner persönlichen Terminübersicht! <br> Hier kannst du Vorsorgetermine eintragen und einsehen wann deine nächsten Vorsorgen anstehen.
+                Hallo {{ userName }}, hier findest du deine persönliche Terminübersicht! 
+                <br> Du kannst hier Vorsorgetermine eintragen und einsehen wann deine nächsten 
+                Untersuchungen anstehen. Außerdem kannst du deine Profilangaben aktualisieren.
             </p>
         </header>
+
+        <!-- Formular zum Ändern der Userdaten 
+        <fieldset class="container col-4 col-offset-4" id="update">
+   
+            <h3 class="mb-3">Registrierung</h3>
+            <h5 class="mb-3">Um sich auf unserer Plattform zu registrieren, geben Sie bitte folgende Informationen an:</h5>
+        
+            <form>
+              <div class="form-group mb-3">
+                <input type="text" class="form-control" placeholder="Vorname" [formControl]="vornameControl" id="inputVorname">
+              </div>
+        
+              <div class="form-group mb-3">
+                <input type="text" class="form-control" placeholder="Nachname" [formControl]="nachnameControl" id="inputNachname">
+              </div>
+        
+              <div class="form-group mb-3">
+                <input type="email" class="form-control" placeholder="Email" [formControl]="emailControl" id="inputEmail">
+              </div>
+        
+              <div class="form-group mb-3">
+                  <input type="password" class="form-control" placeholder="Passwort" [formControl]="passwordControl" id="inputPassword">
+              </div>
+        
+              <div class="mb-3">
+                <button type="button" class="btn btn-secondary" [disabled]="!isValid()" (click)="create()">Registrieren</button>
+              </div>
+        
+              <p *ngIf="gespeichert" class="text-success">
+                Registrierung erfolgreich! Du kannst dich jetzt einloggen.
+              </p>
+              <p *ngIf="speicherFehler" class="text-danger">
+                Registrierung fehlgeschlagen. Bitte versuche es erneut.
+              </p>
+            </form>
+          </fieldset>
+          -->
 
         <!-- Formular zum Eintragen eines neuen Termins -->
         <div class="row g-4">

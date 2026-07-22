@@ -10,26 +10,28 @@ import { VorsorgeTyp } from './vorsorge-typ';
 export class Backend {
   apiURL = 'http://localhost:3000'
 
-  constructor() { }
+  constructor() { } // Überflüssig 
 
-  async getAll(): Promise<User[]> {
-    let response = await fetch(this.apiURL + '/members');
+  // User (CRUD)
+
+  async getAll(): Promise<User[]> { // Alle Einträge werden angefragt
+    let response = await fetch(this.apiURL + '/user'); 
     let users = await response.json();
     console.log('Users in service (getAll) : ', users)
     return users;
   }
 
   async getOne(id: string): Promise<User> {
-    let response = await fetch(this.apiURL + '/members/' + id);
+    let response = await fetch(this.apiURL + '/user/' + id);
     let user = await response.json();
     console.log('User in service (getOne) : ', user)
     return user;
   }
 
   async legeUserAn(user: User): Promise<User> {
-    let response = await fetch(this.apiURL + '/members', {
+    let response = await fetch(this.apiURL + '/user', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' },  // Für Funktion nicht erforderlich
       body: JSON.stringify(user),
     });
     let neuerUser = await response.json();
@@ -38,8 +40,8 @@ export class Backend {
   }
 
   async aktualisiereUser(id: string, aenderungen: Partial<User>): Promise<User> {
-    let response = await fetch(this.apiURL + '/members/' + id, {
-      method: 'PATCH',
+    let response = await fetch(this.apiURL + '/user/' + id, {
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(aenderungen),
     });
@@ -49,10 +51,10 @@ export class Backend {
   }
 
   async loescheUser(id: string): Promise<void> {
-    await fetch(this.apiURL + '/members/' + id, { method: 'DELETE' });
+    await fetch(this.apiURL + '/user/' + id, { method: 'DELETE' });
   }
 
-  async login(email: string, password: string): Promise<{ message: string; member?: User }> {
+  async login(email: string, password: string): Promise<{ message: string; user?: User }> {
     let response = await fetch(this.apiURL + '/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -66,9 +68,8 @@ export class Backend {
     return ergebnis;
   }
 
-  // ---------------------------------------------------------------------
   // Termine (CRUD)
-  // ---------------------------------------------------------------------
+  
 
   async getAlleTermine(): Promise<Termin[]> {
     const response = await fetch(this.apiURL + '/termine');
@@ -97,9 +98,7 @@ export class Backend {
     await fetch(this.apiURL + '/termine/' + id, { method: 'DELETE' });
   }
 
-  // ---------------------------------------------------------------------
   // Eigene Vorsorgearten (CRUD)
-  // ---------------------------------------------------------------------
 
   async getAlleVorsorgeTypen(): Promise<VorsorgeTyp[]> {
     const response = await fetch(this.apiURL + '/vorsorgetypen');

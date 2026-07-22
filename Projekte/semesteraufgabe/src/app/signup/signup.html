@@ -1,16 +1,17 @@
 <main class="d-flex align-items-center min-vh-100">
   <fieldset class="container col-4 col-offset-4" id="signup">
-   
+
     <h3 class="mb-3">Registrierung</h3>
     <h5 class="mb-3">Um sich auf unserer Plattform zu registrieren, geben Sie bitte folgende Informationen an:</h5>
 
     <form>
       <div class="form-group mb-3">
-        <input type="text" class="form-control" placeholder="Vorname" [formControl]="vornameControl" id="inputVorname">
+        <input type="text" class="form-control" placeholder="Vorname" [formControl]="vornameControl" id="inputVorname">          
       </div>
 
       <div class="form-group mb-3">
-        <input type="text" class="form-control" placeholder="Nachname" [formControl]="nachnameControl" id="inputNachname">
+        <input type="text" class="form-control" placeholder="Nachname" [formControl]="nachnameControl"
+          id="inputNachname">
       </div>
 
       <div class="form-group mb-3">
@@ -18,10 +19,11 @@
       </div>
 
       <div class="form-group mb-3">
-          <input type="password" class="form-control" placeholder="Passwort" [formControl]="passwordControl" id="inputPassword">
+        <input type="password" class="form-control" placeholder="Passwort" [formControl]="passwordControl"
+          id="inputPassword">
       </div>
 
-      <div class="mb-3">
+      <div class="form-group mb-3">
         <button type="button" class="btn btn-secondary" [disabled]="!isValid()" (click)="create()">Registrieren</button>
       </div>
 

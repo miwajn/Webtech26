@@ -7,3 +7,12 @@
     background-color: #3B82F6;
     border-color: #3B82F6;
 }
+
+.modal {
+    display: block;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050;
+}
