@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Backend } from '../../lib/shared/backend';
+import { UserBackend } from '../../lib/shared/backendServices/user-backend';
 
 @Component({
   selector: 'app-signup',
@@ -13,10 +13,10 @@ import { Backend } from '../../lib/shared/backend';
 })
 
 export class Signup {
-  private bs = inject(Backend);
+  private bs = inject(UserBackend);
   private router = inject(Router);
 
-  vornameControl = new FormControl('', Validators.required);
+  vornameControl = new FormControl('');
   nachnameControl = new FormControl('');
   emailControl = new FormControl('');
   passwordControl = new FormControl('');

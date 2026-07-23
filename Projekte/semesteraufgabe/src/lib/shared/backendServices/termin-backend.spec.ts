@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Backend } from './backend';
+import { TerminBackend } from '../termin-backend';
 
-describe('Backend', () => {
-  let service: Backend;
+describe('TerminBackend', () => {
+  let service: TerminBackend;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(Backend);
+    service = TestBed.inject(TerminBackend);
   });
 
   it('should be created', () => {

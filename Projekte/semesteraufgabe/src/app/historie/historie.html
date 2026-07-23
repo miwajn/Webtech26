@@ -1,0 +1,31 @@
+<main>
+<div class="container m-5">
+    <h1>Alle Teilnehmer*innen</h1>
+
+    <table class="table table-striped table-responsive mt-5">
+        <caption>Alle Teilnehmerinnen</caption>
+        <thead>
+            <tr>
+                <th scope="col">Nr</th>
+                <th scope="col">Vorname</th>
+                <th scope="col">Nachname</th>
+                <th scope="col">E-Mail</th>
+                <th scope="col">Details</th>
+                <th scope="col">Löschen</th>
+            </tr>
+        </thead>
+        <tbody>
+           <!--@for (member of members; track $index; let i = $index) 
+                <tr>
+                    <td>{{ i+1 }}</td>
+                    <td>{{ member.firstname }}</td>
+                    <td>{{ member.lastname }}</td>
+                    <td><a [href]="'mailto:' + member.email"><span class="bi bi-envelope-at"></span></a></td>
+                    <td><a [routerLink]="['/member', member.id ]"><span class="bi bi-pencil-square"></span></a> </td>
+                    <td><i (click)="delete(member.id)" class="bi bi-trash"></i></td>
+                </tr>
+            }-->
+        </tbody>
+    </table>
+</div>
+</main>

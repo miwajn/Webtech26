@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const terminSchema = new mongoose.Schema({
-    typId: { type: String, required: true },
-    datum: { type: String, required: true }, // Format: JJJJ-MM-TT
-    notiz: { type: String, default: '' }
-}, { timestamps: true });
+    typ: String,
+    datum: String, // Format: JJJJ-MM-TT
+    notiz: String,
+}); 
 
-module.exports = mongoose.model('Termin', terminSchema);
+module.exports = mongoose.model('Termin', terminSchema); // In mongoose +"s", engl. Plural

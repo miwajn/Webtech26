@@ -5,12 +5,20 @@
 
         <form>
             <div class="form-group mb-3">
-                <input type="text" class="form-control" placeholder="Email" [formControl]="emailControl" id="email">
+                <div>
+                    <label class="form-label">Email</label>
+                  </div>
+                <input type="text" class="form-control" placeholder="name@email.com" [formControl]="emailControl" id="email">
                 <!--[formControl] = Angular-Direktive aus ReactiveFormsModule / bindet das Input-Feld an ein FormControl-Objekt in der Komponente-->
             </div>
+
             <div class="form-group mb-3">
-                <input type="password" class="form-control" placeholder="Passwort" [formControl]="passwordControl" id="password">
+                <div>
+                    <label class="form-label">Passwort</label>
+                  </div>
+                <input type="password" class="form-control" [formControl]="passwordControl" id="password">
             </div>
+
             <div class="mb-3">
                 <button type="button" class="btn btn-secondary" [disabled]="!isValid()" (click)="login()">Login</button>
             </div>

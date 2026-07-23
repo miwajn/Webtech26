@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Backend } from '../../lib/shared/backend';
+import { TerminBackend } from '../../lib/shared/backendServices/termin-backend';
+import { VorsorgeTypBackend } from '../../lib/shared/backendServices/vorsorge-typ-backend';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -39,7 +40,8 @@ type UebersichtEintrag = {
 })
 export class User implements OnInit{
 
-  private bs = inject(Backend);
+  private bsTermin = inject(TerminBackend);
+  private bsVorsorgetyp = inject(VorsorgeTypBackend);
     
   userName = 'Alex';
 
@@ -90,8 +92,8 @@ export class User implements OnInit{
   private async ladeDaten(): Promise<void> {
     try {
       const [termineVomBackend, typenVomBackend] = await Promise.all([
-        this.bs.getAlleTermine(),
-        this.bs.getAlleVorsorgeTypen(),
+        this.bsTermin.getAlleTermine(),
+        this.bsVorsorgetyp.getAlleVorsorgeTypen(),
       ]);
 
       // MongoDB liefert "_id" - wir mappen das intern auf "id",
@@ -155,7 +157,7 @@ export class User implements OnInit{
         const name = this.neuerTypName.trim();
         if (name === '') return;
 
-        const neuerTypVomBackend = await this.bs.legeVorsorgeTypAn({
+        const neuerTypVomBackend = await this.bsVorsorgetyp.legeVorsorgeTypAn({
           name: name,
           monate: Math.max(1, Number(this.neuerTypMonate) || 12),
           icon: 'bi-calendar3',
@@ -178,7 +180,7 @@ export class User implements OnInit{
       }
 
       // Danach den eigentlichen Termin speichern
-      const neuerTerminVomBackend = await this.bs.legeTerminAn({
+      const neuerTerminVomBackend = await this.bsTermin.legeTerminAn({
         typId: typId,
         datum: this.datum,
         notiz: this.notiz.trim(),
@@ -213,7 +215,7 @@ export class User implements OnInit{
 
   async terminLoeschen(id: string): Promise<void> {
     try {
-      await this.bs.loescheTermin(id);
+      await this.bsTermin.loescheTermin(id);
       this.termine = this.termine.filter((termin) => termin.id !== id);
     } catch (fehler) {
       console.error('Löschen fehlgeschlagen:', fehler);

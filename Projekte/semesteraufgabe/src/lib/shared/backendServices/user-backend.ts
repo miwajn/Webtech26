@@ -1,16 +1,11 @@
 import { Injectable } from '@angular/core';
-import { User } from './user';
-import { Termin } from './termin';
-import { VorsorgeTyp } from './vorsorge-typ';
+import { User } from '../interfaces/userInterface';
 
 @Injectable({
   providedIn: 'root',
 })
-
-export class Backend {
+export class UserBackend {
   apiURL = 'http://localhost:3000'
-
-  constructor() { } // Überflüssig 
 
   // User (CRUD)
 
@@ -68,53 +63,4 @@ export class Backend {
     return ergebnis;
   }
 
-  // Termine (CRUD)
-  
-
-  async getAlleTermine(): Promise<Termin[]> {
-    const response = await fetch(this.apiURL + '/termine');
-    return response.json();
-  }
-
-  async legeTerminAn(termin: Omit<Termin, '_id'>): Promise<Termin> {
-    const response = await fetch(this.apiURL + '/termine', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(termin),
-    });
-    return response.json();
-  }
-
-  async aktualisiereTermin(id: string, aenderungen: Partial<Termin>): Promise<Termin> {
-    const response = await fetch(this.apiURL + '/termine/' + id, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(aenderungen),
-    });
-    return response.json();
-  }
-
-  async loescheTermin(id: string): Promise<void> {
-    await fetch(this.apiURL + '/termine/' + id, { method: 'DELETE' });
-  }
-
-  // Eigene Vorsorgearten (CRUD)
-
-  async getAlleVorsorgeTypen(): Promise<VorsorgeTyp[]> {
-    const response = await fetch(this.apiURL + '/vorsorgetypen');
-    return response.json();
-  }
-
-  async legeVorsorgeTypAn(typ: Omit<VorsorgeTyp, '_id'>): Promise<VorsorgeTyp> {
-    const response = await fetch(this.apiURL + '/vorsorgetypen', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(typ),
-    });
-    return response.json();
-  }
-
-  async loescheVorsorgeTyp(id: string): Promise<void> {
-    await fetch(this.apiURL + '/vorsorgetypen/' + id, { method: 'DELETE' });
-  }
 }

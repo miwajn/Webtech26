@@ -5,6 +5,8 @@ import { About } from './about/about';
 import { Signup } from './signup/signup';
 import { PageNotFound } from './page-not-found/page-not-found';
 import { User } from './user/user';
+import { Historie } from './historie/historie';
+
 
 export const routes: Routes = [
 { path: "", component: Home}, 
@@ -14,4 +16,5 @@ export const routes: Routes = [
 { path: "about", component: About },
 { path: "signup", component: Signup },
 { path: "**", component: PageNotFound, pathMatch: 'full'},  // full: Route nur, wenn URL sonst nichts enthält
+{ path: "historie", component: Historie}
 ];
