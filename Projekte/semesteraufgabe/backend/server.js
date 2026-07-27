@@ -1,8 +1,7 @@
 const express = require('express'); //Express einbinden
-const routes = require('./routes'); // Routes einbinden (Member Termine und Vorsorge)
-// const routesUser = require('./userRoutes);
-// const routesTermin = require('./terminRoutes);
-// const routesVorsorgeTyp = require('./vorsorgeTypRoutes);
+const userRoutes = require('./userRoutes');
+const termineRoutes = require('./termineRoutes');
+const vorsorgeTypRoutes = require('./vorsorgeTypRoutes');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const cors = require('cors');   //CORS ermöglich Anfragen zu definieren, die im Sinne der Same-Origin-Policy (SOP) erlaubt sein sollen. 
@@ -12,10 +11,9 @@ const PORT = 3000;
 
 app.use(express.json()); //Alle JS-Onjekte werden in JSON umgewandelt
 app.use(cors());        // Erlaubt Cross-Origin-Anfragen, siehe oben CORS-SOP
-app.use('/', routes);  // Alle Anfragen werden an "routes" weitergeleitet / besser separieren
-// app.use('/user', routesUser);    // Anfragen User-Model
-// app.use('/termin', routesTermin);    // Anfragen Termin-Model
-// app.use('/vorsorgetyp', routesVorsorgeTyp)  // Anfragen Vorsorge-Model
+app.use('/', userRoutes);
+app.use('/', termineRoutes);
+app.use('/', vorsorgeTypRoutes);
 
 
 // Verbindung zu MongoDB

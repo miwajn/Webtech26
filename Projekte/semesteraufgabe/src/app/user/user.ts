@@ -2,7 +2,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { TerminBackend } from '../../lib/shared/backendServices/termin-backend';
 import { VorsorgeTypBackend } from '../../lib/shared/backendServices/vorsorge-typ-backend';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 
 // Ein "Typ" ist eine Art von Vorsorgetermin, z. B. Zahnarzt
 type VorsorgeTyp = {
@@ -34,7 +35,7 @@ type UebersichtEintrag = {
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule, FormsModule], //ngFor, ngIf (Common) + ngModel (Forms)
+  imports: [CommonModule, FormsModule, RouterLink, ReactiveFormsModule], //ngFor, ngIf (Common) + ngModel (Forms)
   templateUrl: './user.html',
   styleUrl: './user.css'
 })
@@ -42,8 +43,9 @@ export class User implements OnInit{
 
   private bsTermin = inject(TerminBackend);
   private bsVorsorgetyp = inject(VorsorgeTypBackend);
-    
-  userName = 'Alex';
+
+  emailControl = new FormControl('');
+  passwordControl = new FormControl('');
 
   // Fest eingebaute Vorsorgearten
   standardTypen: VorsorgeTyp[] = [

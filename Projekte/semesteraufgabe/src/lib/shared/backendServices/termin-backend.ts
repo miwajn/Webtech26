@@ -12,7 +12,12 @@ export class TerminBackend {
 
 
   async getAlleTermine(): Promise<Termin[]> {
-    const response = await fetch(this.apiURL + '/termine');
+    const response = await fetch(this.apiURL + '/termine', { cache: 'no-store'} );  // no-store, da Daten beim erneuten Laden verschwunden sind
+    return response.json();
+  }
+
+  async getEinenTermin(id: string): Promise<Termin> {
+    const response = await fetch(this.apiURL + '/termine/' + id, { cache: 'no-store' });
     return response.json();
   }
 

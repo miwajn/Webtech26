@@ -1,0 +1,35 @@
+<main>
+    <div class="container py-4">
+
+        <h1>Deine Vorsorgetermine im Überblick</h1>
+
+        <table class="table table-striped table-responsive mt-5">
+            <caption>Alle Termine</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Nr</th>
+                    <th scope="col">Termintyp</th>
+                    <th scope="col">Datum</th>
+                    <th scope="col">Nächste Vorsorge</th>
+                    <th scope="col">Notizen</th>
+                    <th scope="col">Bearbeiten</th>
+                    <th scope="col">Löschen</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (termin of termine; track termin._id; let i = $index) {
+                <tr>
+                    <td>{{ i+1 }}</td>
+                    <td>{{ termin.typId }}</td>
+                    <td>{{ termin.datum }}</td>
+                    <td>-</td>
+                    <td>{{ termin.notiz }}</td>
+                    <td><a [routerLink]="['/termin', termin._id]"><span class="bi bi-pencil-square"></span></a></td>
+                    <td><i (click)="delete(termin._id)" class="bi bi-trash"></i></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</main>
