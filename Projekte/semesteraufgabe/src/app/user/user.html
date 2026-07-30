@@ -3,7 +3,7 @@
 
         <header class="mb-4">
             <h6>Persönlicher Gesundheitsbereich</h6>
-            <h1>Vorsorge-Pass</h1>
+            <h1>Dein Vorsorgepass</h1>
             <p>
                 Hier findest du deine persönliche Terminübersicht.
                 <br> Du kannst hier Vorsorgetermine eintragen und einsehen wann deine nächsten
@@ -34,6 +34,7 @@
                                 </select>
                             </div>
 
+                            <!-- Eigene Art hinzufügen - deaktiviert, es gibt nur noch die vorgegebenen Typen
                             <div class="form-check mb-3">
                                 <input class="form-check-input" type="checkbox" id="neueArtCheckbox" name="neueArtCheckbox" [(ngModel)]="zeigeNeueArt" />
                                 <label class="form-check-label" for="neueArtCheckbox">
@@ -47,6 +48,7 @@
                                 <input type="number" class="form-control" name="neuerTypMonate" min="1"
                                     [(ngModel)]="neuerTypMonate" />
                             </div>
+                            -->
 
                             <div class="mb-3">
                                 <label for="datumInput" class="form-label">Datum des Termins</label>
@@ -74,18 +76,24 @@
             <div class="col-12 col-lg-4">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <h5>User Daten aktualisieren</h5>
+                        <h5>Persönliche Daten aktualisieren</h5>
                         
                         <form>
                             <div class="mb-3">
                                 <label class="form-label">Neue Email</label>
                                 <input type="email" class="form-control" [formControl]="emailControl" id="updateEmail" placeholder="name@email.com"/>
                             </div>
-
+                           
                             <div class="mb-3">
                                 <label class="form-label">Neues Passwort</label>
                                 <input type="password" class="form-control" [formControl]="passwordControl" id="inputPassword"/>
                             </div>
+                            <div class="mb-3">
+                                <label class="form-label">Altes Passwort</label>
+                                <input type="password" class="form-control" [formControl]="passwordControl" id="inputPassword"/>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Aktualisieren</button>
+
                         </form>
                     </div>
                 </div>
@@ -133,36 +141,4 @@
         </div>
     </div>
 
-
-    <!-- Verlauf aller eingetragenen Termine -->
-    <div class="card shadow-sm mt-4">
-        <div class="card-body">
-            <h5>Verlauf</h5>
-
-            <p *ngIf="verlauf().length === 0">
-                Noch keine Termine eingetragen — trag oben deinen ersten Termin ein.
-            </p>
-
-            <ul class="list-group list-group-flush" *ngIf="verlauf().length > 0">
-                <li class="list-group-item d-flex justify-content-between align-items-center"
-                    *ngFor="let termin of verlauf()">
-                    <div>
-                        <div>
-                            <i class="bi" [ngClass]="termin.typIcon"></i>
-                            <strong>{{ termin.typName }}</strong>
-                        </div>
-
-                        <div class="text-muted small" *ngIf="termin.notiz">{{ termin.notiz }}</div>
-                    </div>
-                    <div class="d-flex align-items-center gap-3">
-                        <span class="text-muted small">{{ formatiereDatum(termin.datum) }}</span>
-
-                        <button class="btn btn-sm btn-outline-danger" (click)="terminLoeschen(termin.id)">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
 </main>

@@ -1,0 +1,127 @@
+<main class="d-flex align-items-center min-vh-100">
+
+    <div class="container py-4">
+
+        <header class="mb-4">
+            <h6>Persönlicher Gesundheitsbereich</h6>
+            <h1>Termin bearbeiten</h1>
+
+            <p>
+                Hier kannst du die Angaben zu deinem Vorsorgetermin ändern.
+            </p>
+        </header>
+
+        @if (termin()) {
+
+            @let vorsorgeTyp = getVorsorgeTyp(termin()!.typId);
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <h5 class="card-title mb-4">
+                        Termin bearbeiten
+                    </h5>
+
+                    <!-- Informationen zum Vorsorgetyp -->
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center gap-2">
+                            <i
+                                class="bi"
+                                [ngClass]="vorsorgeTyp.icon"
+                                style="font-size: x-large; color: rgb(59, 130, 246)">
+                            </i>
+
+                            <strong>{{ vorsorgeTyp.name }}</strong>
+                        </div>
+
+                        <p class="text-muted mt-2 mb-0">
+                            Empfohlenes Intervall:
+                            {{ vorsorgeTyp.monate }} Monate
+                        </p>
+                    </div>
+
+                    <form (ngSubmit)="update()">
+
+                        <!-- Datum -->
+                        <div class="mb-3">
+                            <label for="datum" class="form-label">
+                                Datum des Termins
+                            </label>
+
+                            <input
+                                type="date"
+                                id="datum"
+                                name="datum"
+                                class="form-control"
+                                [(ngModel)]="datum"
+                                required
+                            />
+                        </div>
+
+                        <!-- Notiz -->
+                        <div class="mb-3">
+                            <label for="notiz" class="form-label">
+                                Notiz
+                            </label>
+
+                            <input
+                                type="text"
+                                id="notiz"
+                                name="notiz"
+                                class="form-control"
+                                placeholder="z. B. Praxis, Befund, Erinnerung"
+                                [(ngModel)]="notiz"
+                            />
+                        </div>
+
+                        <!-- Fehlermeldung -->
+                        @if (speicherFehler) {
+                            <div class="alert alert-danger">
+                                Speichern hat nicht geklappt.
+                                Bitte erneut versuchen.
+                            </div>
+                        }
+
+                        <!-- Erfolgsmeldung -->
+                        @if (gespeichert) {
+                            <div class="alert alert-success">
+                                Termin wurde erfolgreich aktualisiert.
+                            </div>
+                        }
+
+                        <!-- Buttons -->
+                        <div class="d-flex gap-2 mt-4">
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                                [disabled]="!datum">
+                                <i class="bi bi-check-lg"></i>
+                                Aktualisieren
+                            </button>
+
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                (click)="cancel()">
+                                Abbrechen
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        } @else {
+
+            <div class="alert alert-secondary">
+                Termin wird geladen...
+            </div>
+
+        }
+
+    </div>
+
+</main>

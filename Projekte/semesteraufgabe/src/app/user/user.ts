@@ -1,29 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { TerminBackend } from '../../lib/shared/backendServices/termin-backend';
-import { VorsorgeTypBackend } from '../../lib/shared/backendServices/vorsorge-typ-backend';
+import { Termin } from "../../lib/shared/interfaces/terminInterface"
+import { STANDARD_VORSORGE_TYPEN, VorsorgeTypStandard } from '../../lib/shared/standardVorsorgeTypen';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 
-// Ein "Typ" ist eine Art von Vorsorgetermin, z. B. Zahnarzt
-type VorsorgeTyp = {
-  id: string;
-  name: string;
-  monate: number; // empfohlenes Intervall in Monaten
-  icon: string; // Bootstrap-Icons
-};
-
-// Ein "Termin" ist ein einzelner, eingetragener Arztbesuch
-type Termin = {
-  id: string;
-  typId: string;
-  datum: string; // Format: JJJJ-MM-TT
-  notiz: string;
-};
-
 // So sieht ein Eintrag in der Übersicht aus (eine Karte pro Vorsorgeart)
 type UebersichtEintrag = {
-  typ: VorsorgeTyp;
+  typ: VorsorgeTypStandard;
   letzterTermin: Termin | null;
   naechsterTerminText?: string;
   status?: string;
@@ -42,34 +27,23 @@ type UebersichtEintrag = {
 export class User implements OnInit{
 
   private bsTermin = inject(TerminBackend);
-  private bsVorsorgetyp = inject(VorsorgeTypBackend);
+  // private bsVorsorgetyp = inject(VorsorgeTypBackend);
 
   emailControl = new FormControl('');
   passwordControl = new FormControl('');
 
-  // Fest eingebaute Vorsorgearten
-  standardTypen: VorsorgeTyp[] = [
-    { id: 'krebs', name: 'Krebsfrüherkennung', monate: 12, icon: 'bi-eye-fill' },
-    { id: 'haut', name: 'Hautkrebs-Screening', monate: 24, icon: 'bi-sun-fill' },
-    { id: 'brust', name: 'Mammographie-Screening', monate: 24, icon: 'bi-clipboard-plus-fill' },
-    { id: 'checkup', name: 'Gesundheits-Check-up', monate: 36, icon: 'bi-heart-pulse-fill' },
-    { id: 'zahn', name: 'Zahnvorsorge', monate: 6, icon: 'bi-emoji-smile-fill' }, 
-    { id: 'impfung', name: 'Schutzimpfung', monate: 24, icon: 'bi-shield-fill-plus' },    // Zeit noch rausnehmen
-    { id: 'schwanger', name: 'Schwangerschaft', monate: 12, icon: 'bi-gender-female' }, // Zeit noch rausnehmen
-    { id: 'chlamydien', name: 'Chlamydien-Screening', monate: 12, icon: 'bi-search-heart-fill' }, // Bedingung ergänzen: Geschlecht + Alter (<=25)
-    { id: 'urologie', name: 'Aneurysmen-Früherkennung', monate: 12, icon: 'bi-gender-male' }, // Bedingung ergänzen: Geschlecht + Alter (>=65)
-    { id: 'u18', name: 'Kinder und Jugendliche', monate: 12, icon: 'bi-file-person-fill' },    
-  ];
+  // Fest eingebaute Vorsorgearten - kommen jetzt aus der gemeinsamen Konstante,
+  // damit user.ts und table.ts dieselbe Liste verwenden (nicht mehr aus der DB)
+  standardTypen: VorsorgeTypStandard[] = STANDARD_VORSORGE_TYPEN;
 
-  // Über Backend/ Mongo-DB
-  eigeneTypen: VorsorgeTyp[] = [];
+  // eigeneTypen: VorsorgeTypStandard[] = [];
   termine: Termin[] = [];
 
   // Zustand des Formulars
   ausgewaehlterTypId = this.standardTypen[0].id;
-  zeigeNeueArt = false;
-  neuerTypName = '';
-  neuerTypMonate = 12;
+  // zeigeNeueArt = false;
+  // neuerTypName = '';
+  // neuerTypMonate = 12;
   datum = this.heuteAlsText();
   notiz = '';
   justSaved = false;
@@ -82,9 +56,10 @@ export class User implements OnInit{
     this.ladeDaten();
   }
 
-  // Gibt Standard- und eigene Typen zusammen zurück
-  alleTypen(): VorsorgeTyp[] {
-    return this.standardTypen.concat(this.eigeneTypen);
+  // Gibt die (fest vorgegebenen) Vorsorgearten zurück
+  alleTypen(): VorsorgeTypStandard[] {
+    // return this.standardTypen.concat(this.eigeneTypen);
+    return this.standardTypen;
   }
 
   // ---------------------------------------------------------------------
@@ -93,26 +68,20 @@ export class User implements OnInit{
 
   private async ladeDaten(): Promise<void> {
     try {
-      const [termineVomBackend, typenVomBackend] = await Promise.all([
-        this.bsTermin.getAlleTermine(),
-        this.bsVorsorgetyp.getAlleVorsorgeTypen(),
-      ]);
+      // const [termineVomBackend, typenVomBackend] = await Promise.all([
+      //   this.bsTermin.getAlleTermine(),
+      //   this.bsVorsorgetyp.getAlleVorsorgeTypen(),
+      // ]);
+      const termineVomBackend = await this.bsTermin.getAlleTermine();
 
-      // MongoDB liefert "_id" - wir mappen das intern auf "id",
-      // damit das Template unverändert bleiben kann.
-      this.termine = termineVomBackend.map((t) => ({
-        id: t._id!,
-        typId: t.typId,
-        datum: t.datum,
-        notiz: t.notiz,
-      }));
+      this.termine = termineVomBackend;
 
-      this.eigeneTypen = typenVomBackend.map((typ) => ({
-        id: typ._id!,
-        name: typ.name,
-        monate: typ.monate,
-        icon: typ.icon,
-      }));
+      // this.eigeneTypen = typenVomBackend.map((typ) => ({
+      //   id: typ.id,
+      //   name: typ.name,
+      //   monate: typ.monate,
+      //   icon: typ.icon,
+      // }));
 
       this.ladeFehler = false;
     } catch (fehler) {
@@ -154,32 +123,33 @@ export class User implements OnInit{
     let typId = this.ausgewaehlterTypId;
 
     try {
-      // Falls eine neue, eigene Vorsorgeart angelegt wird: zuerst den Typ speichern
-      if (this.zeigeNeueArt) {
-        const name = this.neuerTypName.trim();
-        if (name === '') return;
-
-        const neuerTypVomBackend = await this.bsVorsorgetyp.legeVorsorgeTypAn({
-          name: name,
-          monate: Math.max(1, Number(this.neuerTypMonate) || 12),
-          icon: 'bi-calendar3',
-        });
-
-        const neuerTyp: VorsorgeTyp = {
-          id: neuerTypVomBackend._id!,
-          name: neuerTypVomBackend.name,
-          monate: neuerTypVomBackend.monate,
-          icon: neuerTypVomBackend.icon,
-        };
-        this.eigeneTypen.push(neuerTyp);
-        typId = neuerTyp.id;
-
-        // Formular für die neue Art wieder zurücksetzen
-        this.neuerTypName = '';
-        this.neuerTypMonate = 12;
-        this.zeigeNeueArt = false;
-        this.ausgewaehlterTypId = typId;
-      }
+      // Eigene Vorsorgeart anlegen - deaktiviert, es gibt nur noch die vorgegebenen Typen
+      // if (this.zeigeNeueArt) {
+      //   const name = this.neuerTypName.trim();
+      //   if (name === '') return;
+      //
+      //   const neuerTypVomBackend = await this.bsVorsorgetyp.legeVorsorgeTypAn({
+      //     id: name,
+      //     name: name,
+      //     monate: Math.max(1, Number(this.neuerTypMonate) || 12),
+      //     icon: 'bi-calendar3',
+      //   });
+      //
+      //   const neuerTyp: VorsorgeTypStandard = {
+      //     id: neuerTypVomBackend.id,
+      //     name: neuerTypVomBackend.name,
+      //     monate: neuerTypVomBackend.monate,
+      //     icon: neuerTypVomBackend.icon,
+      //   };
+      //   this.eigeneTypen.push(neuerTyp);
+      //   typId = neuerTyp.id;
+      //
+      //   // Formular für die neue Art wieder zurücksetzen
+      //   this.neuerTypName = '';
+      //   this.neuerTypMonate = 12;
+      //   this.zeigeNeueArt = false;
+      //   this.ausgewaehlterTypId = typId;
+      // }
 
       // Danach den eigentlichen Termin speichern
       const neuerTerminVomBackend = await this.bsTermin.legeTerminAn({
@@ -188,12 +158,7 @@ export class User implements OnInit{
         notiz: this.notiz.trim(),
       });
 
-      this.termine.push({
-        id: neuerTerminVomBackend._id!,
-        typId: neuerTerminVomBackend.typId,
-        datum: neuerTerminVomBackend.datum,
-        notiz: neuerTerminVomBackend.notiz,
-      });
+      this.termine.push(neuerTerminVomBackend);
 
       this.speicherFehler = false;
       this.notiz = '';
@@ -215,10 +180,10 @@ export class User implements OnInit{
   // Termin löschen (DELETE ans Backend)
   // ---------------------------------------------------------------------
 
-  async terminLoeschen(id: string): Promise<void> {
+  async terminLoeschen(_id: string): Promise<void> {
     try {
-      await this.bsTermin.loescheTermin(id);
-      this.termine = this.termine.filter((termin) => termin.id !== id);
+      await this.bsTermin.loescheTermin(_id);
+      this.termine = this.termine.filter((termin) => termin._id !== _id);
     } catch (fehler) {
       console.error('Löschen fehlgeschlagen:', fehler);
       this.speicherFehler = true;
@@ -277,18 +242,4 @@ export class User implements OnInit{
     });
   }
 
-  // Alle Termine, neuester zuerst, mit Name und Icon der Vorsorgeart
-  verlauf() {
-    return [...this.termine]
-      .sort((a, b) => new Date(b.datum).getTime() - new Date(a.datum).getTime())
-      .map((termin) => {
-        const typ = this.alleTypen().find((t) => t.id === termin.typId);
-        return {
-          ...termin,
-          typName: typ ? typ.name : 'Unbekannter Termin',
-          typIcon: typ ? typ.icon : 'bi-calendar3',
-        };
-      }
-    );
-  }
 }

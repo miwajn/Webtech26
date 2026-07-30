@@ -2,7 +2,6 @@
 const express = require('express');
 const router = express.Router();
 const Termin = require('./models/Termin');
-const VorsorgeTyp = require('./models/eigenerVorsorgetyp');
 
 // C - POST einen neuen termin anlegen
 router.post('/termine', async (req, res) => {
@@ -24,8 +23,8 @@ router.post('/termine', async (req, res) => {
 // R - GET alle termine
 router.get('/termine', async (req, res) => {
     try {
-        const alletermine = await Termin.find(); // find ist ein Promise - async ausgeführt
-        res.send(alletermine);
+        const alleTermine = await Termin.find(); // find ist ein Promise - async ausgeführt
+        res.send(alleTermine);
     } catch (fehler) {
         res.status(500);
         res.send({ error: 'termine konnten nicht geladen werden.' });

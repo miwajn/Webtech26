@@ -1,14 +1,13 @@
-<main class="container-fluid py-5"> <!--fluid = ohne Seitenränder-->
-    <div class="row g-4 px-4"> <!--g-4 = Gap 24px horizontal und vertikal + padding px-->
+<main class="d-flex align-items-center min-vh-100"> <!--fluid = ohne Seitenränder-->
+    <div class="row g-4 p-5"> <!--g-4 = Gap 24px horizontal und vertikal + padding links/rechts px-->
 
         <div class="col-12">
             <h1 class="text-center">Gesundheitsvorsorge leicht gemacht</h1>
         </div>
 
         <div class="col-12">
-            <h2 class="text-center">MedCycle erinnert dich an deine Vorsorgeuntersuchungen. <br>So behälst du den
-                Überblick
-                über vergangene und mögliche anstehende Arzttermine.</h2>
+            <h2 class="text-center">MedCycle erinnert dich an deine Vorsorgeuntersuchungen. <br> So behälst du den
+                vollen Überblick.</h2>
         </div>
 
         <div class="col-12">
@@ -20,8 +19,7 @@
                     den
                     Augen verliert. MedCycle behält für dich den Überblick. </p>
                 <p> Auf einen Blick siehst du, wann dein letzter Termin war und wann die nächste Vorsorge ansteht -
-                    klar,
-                    leicht verständlich und übersichtlich. </p>
+                    klar und übersichtlich. </p>
             </div>
         </div>
 
@@ -30,7 +28,7 @@
             </h2>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-6">
+        <div class="col-12 col-md-6 col-xxl-4">
             <div class="card vorsorge-card p-4" (click)="toggle($event, 0)">
                 <h5>Krebsfrüherkennung</h5>
                 <ul class="vorsorge-card-text hidden">
@@ -53,7 +51,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-6">
+        <div class="col-12 col-md-6 col-xxl-4">
             <div class="card vorsorge-card p-4" (click)="toggle($event, 1)">
                 <h5>Check-up</h5>
                 <ul class="vorsorge-card-text hidden">
@@ -67,7 +65,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-6">
+        <div class="col-12 col-md-6 col-xxl-4">
             <div class="card vorsorge-card p-4" (click)="toggle($event, 2)">
                 <h5>Zahnvorsorge</h5>
                 <ul class="vorsorge-card-text hidden">
@@ -78,7 +76,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-6">
+        <div class="col-12 col-md-6 col-xxl-4">
             <div class="card vorsorge-card p-4" (click)="toggle($event, 3)">
                 <h5>Schutzimpfungen</h5>
                 <ul class="vorsorge-card-text hidden">
@@ -89,7 +87,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-6">
+        <div class="col-12 col-md-6 col-xxl-4">
             <div class="card vorsorge-card p-4" (click)="toggle($event, 4)">
                 <h5>Schwangerschaft</h5>
                 <ul class="vorsorge-card-text hidden">
@@ -107,7 +105,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-6">
+        <div class="col-12 col-md-6 col-xxl-4">
             <div class="card vorsorge-card p-4" (click)="toggle($event, 5)">
                 <h5>Chlamydien-Screening</h5>
                 <ul class="vorsorge-card-text hidden">
@@ -117,7 +115,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-6">
+        <div class="col-12 col-md-6 col-xxl-4">
             <div class="card vorsorge-card p-4" (click)="toggle($event, 6)">
                 <h5>Früherkennung von Aneurysmen</h5>
                 <ul class="vorsorge-card-text hidden">
@@ -127,7 +125,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-6">
+        <div class="col-12 col-md-6 col-xxl-4">
             <div class="card vorsorge-card p-4" (click)="toggle($event, 6)">
                 <h5>Kinder und Jugendliche</h5>
                 <ul class="vorsorge-card-text hidden">

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const terminSchema = new mongoose.Schema({
-    typ: String,
+    typId: String,
     datum: String, // Format: JJJJ-MM-TT
     notiz: String,
 }); 

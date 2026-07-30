@@ -6,15 +6,17 @@ import { Signup } from './signup/signup';
 import { PageNotFound } from './page-not-found/page-not-found';
 import { User } from './user/user';
 import { Table } from './table/table';
+import { TerminComponent } from './termin/termin';
 
 
 export const routes: Routes = [
-{ path: "", component: Home}, 
-{ path: "home", component: Home},
-{ path: "login", component: Login },
-{ path: "user", component: User },
-{ path: "about", component: About },
-{ path: "signup", component: Signup },
-{ path: "table", component: Table},
-{ path: "**", component: PageNotFound, pathMatch: 'full'},  // full: Route nur, wenn URL sonst nichts enthält
+    { path: "", component: Home },
+    { path: "home", component: Home },
+    { path: "login", component: Login },
+    { path: "user", component: User },
+    { path: "about", component: About },
+    { path: "signup", component: Signup },
+    { path: "table", component: Table },
+    { path: "termin/:id", component: TerminComponent },
+    { path: "**", component: PageNotFound, pathMatch: 'full' },  // full: Route nur, wenn URL sonst nichts enthält
 ];
