@@ -3,6 +3,7 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { UserBackend } from '../../lib/shared/backendServices/user-backend';
+import { Auth } from '../../lib/shared/auth';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ import { UserBackend } from '../../lib/shared/backendServices/user-backend';
 export class Login {
   private bs = inject(UserBackend);
   private router = inject(Router);
+  private auth = inject(Auth);
 
   emailControl = new FormControl('', Validators.required);
   passwordControl = new FormControl('', Validators.required);
@@ -30,6 +32,11 @@ export class Login {
     try {
       const ergebnis = await this.bs.login(email, password);
       console.log('Login erfolgreich:', ergebnis);
+
+      if (ergebnis.user) {
+        this.auth.setUser(ergebnis.user);
+      }
+
       this.loginFehler.set(false);
       this.router.navigate(['/user']);
     } catch (fehler) {

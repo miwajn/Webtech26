@@ -7,6 +7,7 @@ const Termin = require('./models/Termin');
 router.post('/termine', async (req, res) => {
     try {
         const neuertermin = new Termin({
+            userId: req.body.userId,
             typId: req.body.typId,
             datum: req.body.datum,
             notiz: req.body.notiz
@@ -20,10 +21,11 @@ router.post('/termine', async (req, res) => {
     }
 });
 
-// R - GET alle termine
+// R - GET alle termine (optional gefiltert nach userId)
 router.get('/termine', async (req, res) => {
     try {
-        const alleTermine = await Termin.find(); // find ist ein Promise - async ausgeführt
+        const filter = req.query.userId ? { userId: req.query.userId } : {};
+        const alleTermine = await Termin.find(filter); // find ist ein Promise - async ausgeführt
         res.send(alleTermine);
     } catch (fehler) {
         res.status(500);

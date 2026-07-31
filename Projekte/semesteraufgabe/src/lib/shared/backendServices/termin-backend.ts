@@ -10,13 +10,12 @@ export class TerminBackend {
 
   // Termine (CRUD)
 
-  async getAlleTermine(): Promise<Termin[]> {
-    let response = await fetch(this.apiURL + '/termine');
+  // Lädt nur die Termine eines bestimmten Users
+  async getAlleTermine(userId: string): Promise<Termin[]> {
+    let response = await fetch(this.apiURL + '/termine?userId=' + encodeURIComponent(userId));
     let termine = await response.json();
     console.log('Termine (getAlleTermine) : ', termine)
     return termine;
-    //const response = await fetch(this.apiURL + '/termine', { cache: 'no-store'} );  // no-store, da Daten beim erneuten Laden verschwunden sind
-    //return response.json();
   }
 
   async getEinenTermin(id: string): Promise<Termin> {
@@ -24,8 +23,6 @@ export class TerminBackend {
     let termin = await response.json();
     console.log('Termin (getEinenTermine) : ', termin)
     return termin;
-    //const response = await fetch(this.apiURL + '/termine/' + id, { cache: 'no-store' });
-    //return response.json();
   }
 
   async legeTerminAn(neuerTermin: Termin): Promise<Termin> {

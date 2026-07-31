@@ -1,10 +1,17 @@
+@media screen and (min-width: 800px) {
+    p {
+        font-size: large;
+    }
+}
+
 main {
     background-image: url('/images/medcycle-bg-dunkel.svg');
     background-size: cover;
     background-attachment: fixed;
 }
 
-h1, h3 {
+h1,
+h3 {
     color: rgb(59, 130, 246);
 }
 
@@ -21,20 +28,52 @@ h6 {
     font-weight: bold;
 }
 
-p, ul {
+p,
+ul {
     color: rgb(77, 75, 75);
 }
 
-ul li::marker {    
-   color: rgb(188, 174, 243);
+ul li::marker {
+    color: rgb(188, 174, 243);
 }
 
 ul ul li {
     list-style-type: square;
 }
 
-@media screen and (min-width: 800px) {
-    p {
-        font-size: large;
-    } 
+th {
+    color: rgb(77, 75, 75);
 }
+
+td {
+    color: rgb(77, 75, 75);
+}
+
+tr:hover td {
+    background-color: rgb(147, 196, 253, 0.205);
+    transition: 0.3s   
+     
+}
+
+.btn-primary {
+    background-color: #8B5CF6;
+    border-color: #8B5CF6;
+}
+  
+.btn-primary:hover {
+    background-color: #3B82F6;
+    border-color: #3B82F6;
+}
+
+.user-dialogfeld h5 {
+    color: rgb(139, 92, 246) !important; 
+    font-size: 20px !important;
+  }
+
+ .user-dialogfeld .mdc-dialog__surface {    /*Äußeres Dialogfenster*/
+    border-radius: 10px !important;
+  }
+
+  .user-dialogfeld .mat-mdc-dialog-content {    /*Text*/
+    color: rgb(77, 75, 75) !important;
+  }

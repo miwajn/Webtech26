@@ -13,7 +13,7 @@
                 Termine für dich gespeichert.
             </p>
             <a [routerLink]="['/table']" class="btn btn-primary w-25">Terminhistorie</a>
-            <!--['table'] = ../user/table -->
+            <!-- Note: ['table'] = ../user/table -->
 
         </header>
 
@@ -27,37 +27,24 @@
                         <form (ngSubmit)="terminHinzufuegen()">
                             <div class="mb-3">
                                 <label for="typAuswahl" class="form-label">Art des Termins</label>
-                                <select id="typAuswahl" class="form-select" name="typAuswahl" [(ngModel)]="ausgewaehlterTypId">
+                                <select id="typAuswahl" class="form-select" name="typAuswahl"
+                                    [(ngModel)]="ausgewaehlterTypId">
                                     <option *ngFor="let typ of alleTypen()" [value]="typ.id">
                                         {{ typ.name }}
                                     </option>
                                 </select>
                             </div>
 
-                            <!-- Eigene Art hinzufügen - deaktiviert, es gibt nur noch die vorgegebenen Typen
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="neueArtCheckbox" name="neueArtCheckbox" [(ngModel)]="zeigeNeueArt" />
-                                <label class="form-check-label" for="neueArtCheckbox">
-                                    eigene Art hinzufügen
-                                </label>
-                            </div>
-
-                            <div class="mb-3" *ngIf="zeigeNeueArt">
-                                <input type="text" class="form-control mb-2" name="neuerTypName" placeholder="z. B. Physiotherapie-Kontrolle" [(ngModel)]="neuerTypName" />
-                                <label class="form-label small">Empfohlenes Intervall (Monate)</label>
-                                <input type="number" class="form-control" name="neuerTypMonate" min="1"
-                                    [(ngModel)]="neuerTypMonate" />
-                            </div>
-                            -->
-
                             <div class="mb-3">
                                 <label for="datumInput" class="form-label">Datum des Termins</label>
-                                <input type="date" id="datumInput" class="form-control" name="datum" [(ngModel)]="datum" [max]="heute" required />
+                                <input type="date" id="datumInput" class="form-control" name="datum" [(ngModel)]="datum"
+                                    [max]="heute" required />
                             </div>
 
                             <div class="mb-3">
                                 <label for="notizInput" class="form-label">Notiz (optional)</label>
-                                <input type="text" id="notizInput" class="form-control" name="notiz" placeholder="z. B. Praxis, Befund, Erinnerung" [(ngModel)]="notiz" />
+                                <input type="text" id="notizInput" class="form-control" name="notiz"
+                                    placeholder="z. B. Praxis, Befund, Erinnerung" [(ngModel)]="notiz" />
                             </div>
 
                             <button type="submit" class="btn btn-primary w-100">
@@ -72,25 +59,29 @@
                     </div>
                 </div>
             </div>
-       
+
+            <!-- Formular zur Aktualisierung der User-Daten -->
             <div class="col-12 col-lg-4">
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h5>Persönliche Daten aktualisieren</h5>
-                        
-                        <form>
+
+                        <form (ngSubmit)="profilAktualisieren()">
                             <div class="mb-3">
                                 <label class="form-label">Neue Email</label>
-                                <input type="email" class="form-control" [formControl]="emailControl" id="updateEmail" placeholder="name@email.com"/>
+                                <input type="email" class="form-control" [formControl]="emailControl" id="updateEmail"
+                                    placeholder="name@email.com" />
                             </div>
-                           
+
                             <div class="mb-3">
                                 <label class="form-label">Neues Passwort</label>
-                                <input type="password" class="form-control" [formControl]="passwordControl" id="inputPassword"/>
+                                <input type="password" class="form-control" [formControl]="passwordControl"
+                                    id="inputPassword" />
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Altes Passwort</label>
-                                <input type="password" class="form-control" [formControl]="passwordControl" id="inputPassword"/>
+                                <input type="password" class="form-control" [formControl]="passwordControl"
+                                    id="inputPassword" />
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Aktualisieren</button>
 
@@ -102,7 +93,7 @@
         </div>
 
         <!-- Übersicht aller Vorsorgearten -->
-        <div class="row g-3">
+        <div class="row g-3 mt-2">
             <div class="col-12 col-sm-6 col-lg-4" *ngFor="let eintrag of uebersicht()">
                 <div class="card h-100">
                     <div class="card-body">
@@ -140,5 +131,4 @@
             </div>
         </div>
     </div>
-
 </main>

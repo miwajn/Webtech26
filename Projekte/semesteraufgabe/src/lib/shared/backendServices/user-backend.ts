@@ -31,6 +31,9 @@ export class UserBackend {
     });
     let neuerUser = await response.json();
     console.log('User in service (legeUserAn) : ', neuerUser)
+    if (!response.ok) {
+      throw new Error(neuerUser.message || 'Registrierung fehlgeschlagen.');
+    }
     return neuerUser;
   }
 

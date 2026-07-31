@@ -1,0 +1,12 @@
+.vorsorge-icon {
+    font-size: large;
+    color: rgb(59, 130, 246);
+}
+
+tr:hover .vorsorge-icon {
+    color: rgb(139, 92, 246);
+}
+
+tr:hover .bi-pencil-square {
+    color: rgb(139, 92, 246);
+}

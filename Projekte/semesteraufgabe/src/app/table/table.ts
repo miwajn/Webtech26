@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { TerminBackend } from '../../lib/shared/backendServices/termin-backend';
 import { Termin } from '../../lib/shared/interfaces/terminInterface';
 import { STANDARD_VORSORGE_TYPEN, VorsorgeTypStandard } from '../../lib/shared/standardVorsorgeTypen';
+import { Auth } from '../../lib/shared/auth';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -17,6 +18,7 @@ import { CommonModule } from '@angular/common';
 export class Table implements OnInit {
 
   private bsTermin = inject(TerminBackend);
+  private auth = inject(Auth);
 
   termine = signal<Termin[]>([]); // Deklaration mit Signal
 
@@ -28,7 +30,13 @@ export class Table implements OnInit {
   deleteStatus: boolean = false;
 
   async ngOnInit(): Promise<void> {
-    const termine = await this.bsTermin.getAlleTermine();
+    const userId = this.auth.getUser()?._id;
+    if (!userId) {
+      console.error('Kein eingeloggter User gefunden.');
+      return;
+    }
+
+    const termine = await this.bsTermin.getAlleTermine(userId);
     this.termine.set(termine);
 
     console.log('Termine:', this.termine());
@@ -84,8 +92,11 @@ export class Table implements OnInit {
       this.deleteStatus = false;
       this.termin = null;
 
-      const response = await this.bsTermin.getAlleTermine();
-      this.termine.set(response); //Signal aktualisieren
+      const userId = this.auth.getUser()?._id;
+      if (userId) {
+        const response = await this.bsTermin.getAlleTermine(userId);
+        this.termine.set(response); //Signal aktualisieren
+      }
 
     } catch (fehler) {
       console.error('Löschen fehlgeschlagen:', fehler);
@@ -96,5 +107,4 @@ export class Table implements OnInit {
     this.termin = null;
     this.deleteStatus = false;
   }
-
 }

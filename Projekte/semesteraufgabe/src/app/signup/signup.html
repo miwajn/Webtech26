@@ -32,17 +32,26 @@
         </div>
         <input type="password" class="form-control" [formControl]="passwordControl" id="inputPassword" required>
       </div>
-      
+
       <div class="form-group mb-3">
         <button type="button" class="btn btn-secondary" [disabled]="!isValid()" (click)="create()">Registrieren</button>
       </div>
 
-      <p *ngIf="gespeichert" class="text-success">
+      @if (gespeichert()){
+      <p class="text-success">
         Registrierung erfolgreich! Du kannst dich jetzt einloggen.
       </p>
-      <p *ngIf="speicherFehler" class="text-danger">
+      }
+      @if (userExistiert()) {
+      <p class="text-danger">
+        Es wurde bereits ein Nutzerkonto angelegt.
+      </p>
+      }
+      @if (speicherFehler()){
+      <p class="text-danger">
         Registrierung fehlgeschlagen. Bitte versuche es erneut.
       </p>
+      }
 
     </form>
   </fieldset>

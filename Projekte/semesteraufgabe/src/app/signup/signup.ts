@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -21,10 +21,12 @@ export class Signup {
   emailControl = new FormControl('');
   passwordControl = new FormControl('');
 
-  speicherFehler = false;
-  gespeichert = false;
+  gespeichert = signal(false);  //Als Signal, da zuvor Messages nicht eingeblendet wurden
+  speicherFehler = signal(false);
+  userExistiert = signal(false);
 
   async create(): Promise<void> {
+    console.log('CREATE wurde aufgerufen');
     if (!this.isValid()) return;
 
     const newUser = {
@@ -37,12 +39,20 @@ export class Signup {
     try {
       const gespeicherterUser = await this.bs.legeUserAn(newUser);
       console.log('User angelegt:', gespeicherterUser);
-      this.gespeichert = true;
-      this.speicherFehler = false;
-      this.router.navigate(['/user']);  //Sobald Daten eingegeben, wird in User-Bereich geleitet
+      this.gespeichert.set(true);
+      this.speicherFehler.set(false);
+      //this.router.navigate(['/user']);  //Sobald Daten eingegeben, wird in User-Bereich geleitet
     } catch (fehler) {
       console.error('Registrierung fehlgeschlagen:', fehler);
-      this.speicherFehler = true;
+      this.gespeichert.set(false);
+      this.speicherFehler.set(false);
+      this.userExistiert.set(false);
+
+      if (fehler instanceof Error && fehler.message === 'Die Email verfügt bereits über ein Nutzerkonto') {
+        this.userExistiert.set(true);
+      } else {
+        this.speicherFehler.set(true);
+      }
     }
   }
 
