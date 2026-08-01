@@ -5,6 +5,8 @@ import { STANDARD_VORSORGE_TYPEN, VorsorgeTypStandard } from '../../lib/shared/s
 import { Auth } from '../../lib/shared/auth';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteTable, DeleteTableData } from './delete-table/delete-table';
 
 @Component({
   selector: 'medCycle-table',
@@ -19,15 +21,12 @@ export class Table implements OnInit {
 
   private bsTermin = inject(TerminBackend);
   private auth = inject(Auth);
+  private dialog = inject(MatDialog);
 
   termine = signal<Termin[]>([]); // Deklaration mit Signal
 
-  // Feste Vorsorgearten kommen jetzt aus der gemeinsamen Konstante,
-  // nicht mehr aus der (leeren) DB-Collection
+  // Feste Vorsorgearten kommen aus der gemeinsamen Konstante, nicht mehr aus der DB
   vorsorgeTypen: VorsorgeTypStandard[] = STANDARD_VORSORGE_TYPEN;
-
-  termin: Termin | null = null;
-  deleteStatus: boolean = false;
 
   async ngOnInit(): Promise<void> {
     const userId = this.auth.getUser()?._id;
@@ -71,40 +70,36 @@ export class Table implements OnInit {
     return new Date(datumText).toLocaleDateString('de-DE');
   }
 
+  // Öffnet den Bestätigungsdialog - löscht erst nach Bestätigung durch die Nutzerin
   delete(id: string | undefined): void {
     if (!id) return;
 
     const gefunden = this.termine().find((t) => t._id === id);
     if (!gefunden) return;
 
-    this.termin = gefunden;      // merken, welcher Termin gelöscht werden soll
-    this.deleteStatus = true;    // Bestätigungsdialog anzeigen
+    const vorsorgeTyp = this.getVorsorgeTyp(gefunden.typId);
+
+    const dialogRef = this.dialog.open(DeleteTable, {
+      data: {
+        headline: 'Termin löschen',
+        info: `Wollen Sie den Termin "${vorsorgeTyp.name}" vom ${this.formatiereDatum(gefunden.datum)} wirklich löschen?`,
+      } as DeleteTableData,
+      panelClass: 'user-dialogfeld',
+    });
+
+    dialogRef.afterClosed().subscribe((bestaetigt) => {
+      if (bestaetigt) {
+        this.loescheTermin(id);
+      }
+    });
   }
 
-  async confirm(): Promise<void> {
-    if (!this.termin?._id) return;
-    const id = this.termin._id;
-
+  private async loescheTermin(id: string): Promise<void> {
     try {
       await this.bsTermin.loescheTermin(id);
-      console.log('Termin erfolgreich gelöscht.');
-
-      this.deleteStatus = false;
-      this.termin = null;
-
-      const userId = this.auth.getUser()?._id;
-      if (userId) {
-        const response = await this.bsTermin.getAlleTermine(userId);
-        this.termine.set(response); //Signal aktualisieren
-      }
-
+      this.termine.update((liste) => liste.filter((t) => t._id !== id));
     } catch (fehler) {
       console.error('Löschen fehlgeschlagen:', fehler);
     }
-  }
-
-  cancel() {
-    this.termin = null;
-    this.deleteStatus = false;
   }
 }

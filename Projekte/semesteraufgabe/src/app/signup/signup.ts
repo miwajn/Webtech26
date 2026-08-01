@@ -18,7 +18,11 @@ export class Signup {
 
   vornameControl = new FormControl('');
   nachnameControl = new FormControl('');
-  emailControl = new FormControl('');
+  emailControl = new FormControl('', [
+    Validators.required,
+    Validators.email,
+    Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)  // Ohne diesen Zusatz war eine Registrierung z.B. mit a@b möglich
+  ]);
   passwordControl = new FormControl('');
 
   gespeichert = signal(false);  //Als Signal, da zuvor Messages nicht eingeblendet wurden
@@ -57,10 +61,12 @@ export class Signup {
   }
 
   isValid(): boolean {
-    return this.vornameControl.value != '' &&
+    return (
+      this.vornameControl.value != '' &&
       this.nachnameControl.value != '' &&
-      this.emailControl.value != '' &&
-      this.passwordControl.value != '';
+      this.emailControl.valid &&  // Emailformat erforderlich
+      this.passwordControl.value != ''
+    );
   }
 
 }

@@ -1,6 +1,5 @@
-// Feste, vorgegebene Vorsorgearten - können von Nutzer:innen nicht verändert werden.
-// Werden bewusst NICHT in MongoDB gespeichert, sondern hier zentral gepflegt,
-// damit alle Komponenten (user.ts, table.ts, ...) dieselbe Liste verwenden.
+// Feste Vorsorgearten - nicht von Nutzer*innen änderbar
+// Hier zentral gespeichert, damit alle Komponenten dieselbe Liste verwenden.
 
 export type VorsorgeTypStandard = {
   id: string;

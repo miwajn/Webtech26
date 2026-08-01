@@ -1,44 +1,23 @@
-<main>
+<main class="d-flex align-items-center min-vh-100">
 
     <div class="container py-4">
-        @if (deleteStatus) {
-
-        <div class="modal d-block" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">
-                            Termin löschen
-                        </h5>
-                        <button type="button" class="btn-close" aria-label="Abbrechen" (click)="cancel()">
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Wollen Sie den Termin vom {{ termin ? formatiereDatum(termin.datum) : '' }} wirklich löschen?
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" (click)="cancel()">
-                            Abbrechen
-                        </button>
-                        <button type="button" class="btn btn-danger" (click)="confirm()">
-                            Löschen
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        } @else {
 
         <header class="mb-4">
             <h6>Persönlicher Gesundheitsbereich</h6>
             <h1>Deine Vorsorgetermine</h1>
-            <p>Hier findest du deine persönliche Terminübersicht.<br>
+
+            <p>
+                Hier findest du deine persönliche Terminübersicht.
+                <br>
                 Du kannst hier Vorsorgetermine eintragen und einsehen wann deine nächsten
-                Untersuchungen anstehen. Außerdem kannst du deine Profilangaben aktualisieren.</p>
-            <p>Hier gelangst du zurück zu deinem Vorsorgepass</p>
-            <a [routerLink]="['/user']" class="btn btn-primary w-25">Vorsorgepass</a>
+                Untersuchungen anstehen. Außerdem kannst du deine Profilangaben aktualisieren.
+            </p>
+
+            <p>
+                Hier gelangst du zurück zu deinem Vorsorgepass
+            </p>
+
+            <a [routerLink]="['/user']" class="btn btn-primary w-25">Zurück zum Vorsorgepass</a>
         </header>
 
 
@@ -63,7 +42,7 @@
 
                 <tr>
                     <td>{{ i + 1 }}</td>
-                    <td><i class="bi vorsorge-icon" [ngClass]="vorsorgeTyp.icon"></i></td>
+                    <td><i class="bi" [ngClass]="vorsorgeTyp.icon"></i></td>
                     <td>{{ vorsorgeTyp.name }}</td>
                     <td>{{ formatiereDatum(termin.datum) }}</td>
                     <td>{{ vorsorgeTyp.monate }} Monate</td>
@@ -75,6 +54,7 @@
                             <span class="bi bi-pencil-square"></span>
                         </a>
                     </td>
+
                     <td>
                         <i (click)="delete(termin._id)" class="bi bi-trash" style="cursor: pointer;">
                         </i>
@@ -82,7 +62,9 @@
                 </tr>
                 }
             </tbody>
+
         </table>
-        }
+
     </div>
+
 </main>

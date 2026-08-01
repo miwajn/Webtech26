@@ -1,17 +1,16 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { TerminBackend } from '../../lib/shared/backendServices/termin-backend';
 import { Termin } from "../../lib/shared/interfaces/terminInterface"
+// import { VorsorgeTypBackend } from '../../lib/shared/backendServices/vorsorge-typ-backend';
 import { STANDARD_VORSORGE_TYPEN, VorsorgeTypStandard } from '../../lib/shared/standardVorsorgeTypen';
 import { Auth } from '../../lib/shared/auth';
-import { UserBackend } from '../../lib/shared/backendServices/user-backend';
-import { User as UserModel } from '../../lib/shared/interfaces/userInterface';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmUser, ConfirmDialogData } from './confirm-user/confirm-user';
 
-// Eintrag je Übersichtskarte
+// So sieht ein Eintrag in der Übersicht aus (eine Karte pro Vorsorgeart)
 type UebersichtEintrag = {
   typ: VorsorgeTypStandard;
   letzterTermin: Termin | null;
@@ -25,19 +24,16 @@ type UebersichtEintrag = {
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, ReactiveFormsModule], //ngFor, ngIf (Common) + ngModel (Forms)
+  imports: [CommonModule, FormsModule, RouterLink], //ngFor, ngIf (Common) + ngModel (Forms)
   templateUrl: './user.html',
   styleUrl: './user.css'
 })
-export class User implements OnInit{
+export class User implements OnInit {
 
   private bsTermin = inject(TerminBackend);
-  private bsUser = inject(UserBackend);
+  // private bsVorsorgetyp = inject(VorsorgeTypBackend);
   private auth = inject(Auth);
   private dialog = inject(MatDialog);
-
-  emailControl = new FormControl('');
-  passwordControl = new FormControl('');
 
   // Fest eingebaute Vorsorgearten - kommen jetzt aus der gemeinsamen Konstante,
   // damit user.ts und table.ts dieselbe Liste verwenden (nicht mehr aus der DB)
@@ -48,13 +44,20 @@ export class User implements OnInit{
 
   // Zustand des Formulars
   ausgewaehlterTypId = this.standardTypen[0].id;
+  // zeigeNeueArt = false;
+  // neuerTypName = '';
+  // neuerTypMonate = 12;
   datum = this.heuteAlsText();
   notiz = '';
-  justSaved = false;
-  speicherFehler = false;
   ladeFehler = false;
 
   heute = this.heuteAlsText();
+  minDatum = this.addiereMonate(this.heute, -36) //Datum bis max. 3 Jahre zurück
+    .toISOString()
+    .slice(0, 10);
+  maxDatum = this.addiereMonate(this.heute, 36) //Datum bis max. 3 Jahre in Zukunft
+    .toISOString()
+    .slice(0, 10);
 
   ngOnInit(): void {
     this.ladeDaten();
@@ -62,6 +65,7 @@ export class User implements OnInit{
 
   // Gibt die (fest vorgegebenen) Vorsorgearten zurück
   alleTypen(): VorsorgeTypStandard[] {
+    // return this.standardTypen.concat(this.eigeneTypen);
     return this.standardTypen;
   }
 
@@ -78,9 +82,21 @@ export class User implements OnInit{
     }
 
     try {
+      // const [termineVomBackend, typenVomBackend] = await Promise.all([
+      //   this.bsTermin.getAlleTermine(userId),
+      //   this.bsVorsorgetyp.getAlleVorsorgeTypen(),
+      // ]);
       const termineVomBackend = await this.bsTermin.getAlleTermine(userId);
 
       this.termine = termineVomBackend;
+
+      // this.eigeneTypen = typenVomBackend.map((typ) => ({
+      //   id: typ.id,
+      //   name: typ.name,
+      //   monate: typ.monate,
+      //   icon: typ.icon,
+      // }));
+
       this.ladeFehler = false;
     } catch (fehler) {
       console.error('Daten konnten nicht geladen werden:', fehler);
@@ -96,10 +112,9 @@ export class User implements OnInit{
     return new Date().toISOString().slice(0, 10);
   }
 
-  private zeigeBestaetigung(headline: string, info: string): void {
-    this.dialog.open(ConfirmUser, {
+  private zeigeBestaetigung(headline: string, info: string) {
+    return this.dialog.open(ConfirmUser, {
       data: { headline, info } as ConfirmDialogData,
-      panelClass: 'user-dialogfeld',  // Klasse um in CSS Design zu ändern
     });
   }
 
@@ -128,13 +143,42 @@ export class User implements OnInit{
     const userId = this.auth.getUser()?._id;
     if (!userId) {
       console.error('Kein eingeloggter User gefunden.');
-      this.speicherFehler = true;
+      this.zeigeBestaetigung('Fehler', 'Du bist nicht eingeloggt. Bitte melde dich erneut an.');
       return;
     }
 
     let typId = this.ausgewaehlterTypId;
 
     try {
+      // Eigene Vorsorgeart anlegen - deaktiviert, es gibt nur noch die vorgegebenen Typen
+      // if (this.zeigeNeueArt) {
+      //   const name = this.neuerTypName.trim();
+      //   if (name === '') return;
+      //
+      //   const neuerTypVomBackend = await this.bsVorsorgetyp.legeVorsorgeTypAn({
+      //     id: name,
+      //     name: name,
+      //     monate: Math.max(1, Number(this.neuerTypMonate) || 12),
+      //     icon: 'bi-calendar3',
+      //   });
+      //
+      //   const neuerTyp: VorsorgeTypStandard = {
+      //     id: neuerTypVomBackend.id,
+      //     name: neuerTypVomBackend.name,
+      //     monate: neuerTypVomBackend.monate,
+      //     icon: neuerTypVomBackend.icon,
+      //   };
+      //   this.eigeneTypen.push(neuerTyp);
+      //   typId = neuerTyp.id;
+      //
+      //   // Formular für die neue Art wieder zurücksetzen
+      //   this.neuerTypName = '';
+      //   this.neuerTypMonate = 12;
+      //   this.zeigeNeueArt = false;
+      //   this.ausgewaehlterTypId = typId;
+      // }
+
+      // Danach den eigentlichen Termin speichern
       const neuerTerminVomBackend = await this.bsTermin.legeTerminAn({
         userId: userId,
         typId: typId,
@@ -144,66 +188,11 @@ export class User implements OnInit{
 
       this.termine.push(neuerTerminVomBackend);
 
-      this.speicherFehler = false;
       this.notiz = '';
-      this.zeigeKurzeErfolgsmeldung();
       this.zeigeBestaetigung('Termin gespeichert', 'Der Termin wurde erfolgreich eingetragen.');
     } catch (fehler) {
       console.error('Speichern fehlgeschlagen:', fehler);
-      this.speicherFehler = true;
       this.zeigeBestaetigung('Fehler', 'Der Termin konnte nicht gespeichert werden. Bitte erneut versuchen.');
-    }
-  }
-
-  private zeigeKurzeErfolgsmeldung(): void {
-    this.justSaved = true;
-    setTimeout(() => {
-      this.justSaved = false;
-    }, 3000);
-  }
-
-  // ---------------------------------------------------------------------
-  // Persönliche Daten aktualisieren (PATCH ans Backend)
-  // ---------------------------------------------------------------------
-
-  async profilAktualisieren(): Promise<void> {
-    const userId = this.auth.getUser()?._id;
-    if (!userId) {
-      console.error('Kein eingeloggter User gefunden.');
-      return;
-    }
-
-    const aenderungen: Partial<UserModel> = {};
-    if (this.emailControl.value) aenderungen.email = this.emailControl.value;
-    if (this.passwordControl.value) aenderungen.password = this.passwordControl.value;
-
-    if (Object.keys(aenderungen).length === 0) return;
-
-    try {
-      const aktualisierterUser = await this.bsUser.aktualisiereUser(userId, aenderungen);
-      this.auth.setUser(aktualisierterUser);
-
-      this.emailControl.reset('');
-      this.passwordControl.reset('');
-
-      this.zeigeBestaetigung('Profil aktualisiert', 'Deine Daten wurden erfolgreich aktualisiert.');
-    } catch (fehler) {
-      console.error('Profil-Update fehlgeschlagen:', fehler);
-      this.zeigeBestaetigung('Fehler', 'Deine Daten konnten nicht aktualisiert werden. Bitte erneut versuchen.');
-    }
-  }
-
-  // ---------------------------------------------------------------------
-  // Termin löschen (DELETE ans Backend)
-  // ---------------------------------------------------------------------
-
-  async terminLoeschen(_id: string): Promise<void> {
-    try {
-      await this.bsTermin.loescheTermin(_id);
-      this.termine = this.termine.filter((termin) => termin._id !== _id);
-    } catch (fehler) {
-      console.error('Löschen fehlgeschlagen:', fehler);
-      this.speicherFehler = true;
     }
   }
 
