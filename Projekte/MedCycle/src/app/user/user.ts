@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { TerminBackend } from '../../lib/shared/backendServices/termin-backend';
 import { Termin } from "../../lib/shared/interfaces/terminInterface"
 // import { VorsorgeTypBackend } from '../../lib/shared/backendServices/vorsorge-typ-backend';
@@ -39,7 +39,9 @@ export class User implements OnInit {
   // damit user.ts und table.ts dieselbe Liste verwenden (nicht mehr aus der DB)
   standardTypen: VorsorgeTypStandard[] = STANDARD_VORSORGE_TYPEN;
 
-  termine: Termin[] = [];
+  // Signal statt normaler Property, damit die View nach dem async-Laden
+  // (nach dem await in ladeDaten()) zuverlässig aktualisiert wird.
+  termine = signal<Termin[]>([]);
 
   // Zustand des Formulars
   ausgewaehlterTypId = this.standardTypen[0].id;
@@ -78,7 +80,7 @@ export class User implements OnInit {
     try {
       const termineVomBackend = await this.bsTermin.getAlleTermine(userId);
 
-      this.termine = termineVomBackend;
+      this.termine.set(termineVomBackend);
       this.ladeFehler = false;
     } catch (fehler) {
       console.error('Daten konnten nicht geladen werden:', fehler);
@@ -135,7 +137,7 @@ export class User implements OnInit {
         notiz: this.notiz.trim(),
       });
 
-      this.termine.push(neuerTerminVomBackend);
+      this.termine.update((liste) => [...liste, neuerTerminVomBackend]);
 
       this.notiz = '';
       this.zeigeBestaetigung('Termin gespeichert', 'Der Termin wurde erfolgreich eingetragen.');
@@ -146,13 +148,13 @@ export class User implements OnInit {
   }
 
   // Daten fürs Template aufbereiten 
-  
+
   // Eine Karte pro Vorsorgeart, mit Status, Fortschritt und Text
   uebersicht(): UebersichtEintrag[] {
     const heute = new Date();
 
     return this.alleTypen().map((typ) => {
-      const terminZuTyp = this.termine
+      const terminZuTyp = this.termine()
         .filter((t) => t.typId === typ.id)
         .sort((a, b) => new Date(b.datum).getTime() - new Date(a.datum).getTime());
 

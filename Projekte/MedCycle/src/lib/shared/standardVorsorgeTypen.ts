@@ -16,7 +16,7 @@ export const STANDARD_VORSORGE_TYPEN: VorsorgeTypStandard[] = [
   { id: 'zahn', name: 'Zahnvorsorge', monate: 6, icon: 'bi-emoji-smile-fill' },
   { id: 'impfung', name: 'Schutzimpfung', monate: 24, icon: 'bi-shield-fill-plus' },    // Zeit müsste individuell eingestellt werden können
   { id: 'schwanger', name: 'Schwangerschaft', monate: 12, icon: 'bi-gender-female' },   // Zeit müsste individuell eingestellt werden können
-  { id: 'chlamydien', name: 'Chlamydien-Screening', monate: 12, icon: 'bi-search-heart-fill' }, // Bedingung ergänzen: Geschlecht + Alter (<=25)
+  { id: 'chlamydien', name: 'Chlamydien-Screening', monate: 12, icon: 'bi-search' }, // Bedingung ergänzen: Geschlecht + Alter (<=25)
   { id: 'urologie', name: 'Aneurysmen-Früherkennung', monate: 12, icon: 'bi-gender-male' },     // Bedingung ergänzen: Geschlecht + Alter (>=65)
   { id: 'u18', name: 'Kinder und Jugendliche', monate: 12, icon: 'bi-file-person-fill' }, // Zeit müsste individuell eingestellt werden könnenn
 ];
