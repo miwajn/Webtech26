@@ -1,0 +1,22 @@
+mat-dialog-content {
+    color: rgb(77, 75, 75);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+mat-dialog-actions {
+    padding-top: 8px;
+}
+
+button {
+    background-color: #8B5CF6;
+    border-color: #8B5CF6;
+    color: white !important;
+    border-radius: 5px;
+    padding: 6px 20px;
+}
+
+button:hover {
+    background-color: #3B82F6;
+    border-color: #3B82F6;
+}

@@ -1,0 +1,120 @@
+<main class="d-flex justify-content-center align-items-start min-vh-100">
+
+    <div class="container py-4">
+
+        <header class="mb-4">
+            <h6>Persönlicher Gesundheitsbereich</h6>
+            <h1>Dein Vorsorgepass</h1>
+            <p>Willkommen in deinem persönlichen Gesundheitsbereich!
+                <br> Du kannst hier Vorsorgetermine eintragen und einsehen wann deine nächsten
+                Untersuchungen anstehen. Außerdem kannst du deine Profilangaben aktualisieren und
+                eine Gesamtübersicht deiner bisherigen Termine abrufen.
+            </p>
+
+        </header>
+
+        <!-- Formular zum Eintragen eines neuen Termins -->
+        <div class="row g-3">
+            <div class="col-12 col-lg-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5>Neuen Termin eintragen</h5>
+
+                        <form (ngSubmit)="terminHinzufuegen()">
+                            <div class="mb-3">
+                                <label for="typAuswahl" class="form-label">Art des Termins</label>
+                                <select id="typAuswahl" class="form-select" name="typAuswahl"
+                                    [(ngModel)]="ausgewaehlterTypId">
+                                    <option *ngFor="let typ of alleTypen()" [value]="typ.id">
+                                        {{ typ.name }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="datumInput" class="form-label">Datum des Termins</label>
+                                <input type="date" id="datumInput" class="form-control" name="datum" [(ngModel)]="datum" [min]="minDatum" [max]="maxDatum" required /> <!--Termine ab 2020 bis 3 Jahre in Zukunft-->
+                            </div>
+ 
+                            <div class="mb-3">
+                                <label for="notizInput" class="form-label">Notiz (optional)</label>
+                                <input type="text" id="notizInput" class="form-control" name="notiz" placeholder="z. B. Praxis, Befund, Erinnerung" [(ngModel)]="notiz" />
+                            </div>
+ 
+                            <button type="submit" class="btn btn-primary w-100">
+                                      Termin eintragen
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terminhistorie - Table-Komponente -->
+            <div class="col-12 col-lg-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5>Alle Termine einsehen</h5>
+                        <p>
+                            Eine Gesamtübersicht all deiner Termine findest du in der Terminhistorie. Dort sind auch deine vergangen
+                            Termine für dich gespeichert.
+                        </p>
+                        <a [routerLink]="['/table']" class="btn btn-primary w-100">Terminhistorie</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UserDaten aktualisieren - UserProfil-Komponente -->
+            <div class="col-12 col-lg-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5>Persönliche Daten ändern</h5>
+                        <p>
+                            Deine Profilangaben wie Email und Passwort kannst du hier aktualisieren.
+                        </p>
+                        <a [routerLink]="['/userProfil']" class="btn btn-primary w-100">Profil bearbeiten</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Übersicht aller Vorsorgearten -->
+        <div class="row g-3 mt-3">
+            <div class="col-12 col-sm-6 col-lg-4" *ngFor="let eintrag of uebersicht()">
+                <div class="card h-100">
+                    <div class="card-body vorsorgeTyp">
+
+                        <!-- nachher -->
+                        <h6>
+                            <i class="bi" style="font-size:x-large ; color: rgb(59, 130, 246)"
+                                [ngClass]="eintrag.typ.icon"></i>
+                            {{ eintrag.typ.name }}
+                        </h6>
+
+                        <ng-container *ngIf="eintrag.letzterTermin; else keinTermin">
+                            <p>
+                                Letzter Termin: <strong>{{ formatiereDatum(eintrag.letzterTermin.datum)
+                                    }}</strong>
+                            </p>
+                            <p>
+                                Nächste Vorsorge: <strong>{{ formatiereDatum(eintrag.naechsterTerminText!)
+                                    }}</strong>
+                            </p>
+                            <div class="progress mb-2" style="height: 8px;">
+                                <div class="progress-bar" [ngClass]="'bg-' + eintrag.farbe"
+                                    [style.width.%]="eintrag.prozent"></div>
+                            </div>
+                            <span class="badge" [ngClass]="'bg-' + eintrag.farbe">{{ eintrag.status }}</span>
+                            <span class="text-muted small ms-2">{{ eintrag.tageText }}</span>
+                        </ng-container>
+
+                        <ng-template #keinTermin>
+                            <p> Noch kein Termin eingetragen.</p>
+                            <p> Empfohlenes Intervall: alle {{ eintrag.typ.monate }} Monate</p>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

@@ -1,0 +1,10 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <title>MedCycle Icon Monochrom</title>
+  <rect width="512" height="512" fill="white"/>
+  <path d="M106 256 A150 150 0 0 1 406 256" fill="none" stroke="#1e1e2e" stroke-width="34" stroke-linecap="round"/>
+  <path d="M406 292 A150 150 0 0 1 106 292" fill="none" stroke="#1e1e2e" stroke-width="34" stroke-linecap="round"/>
+  <path d="M148 256 A108 108 0 0 1 364 256" fill="none" stroke="#6b6b8a" stroke-width="22" stroke-linecap="round"/>
+  <path d="M364 292 A108 108 0 0 1 148 292" fill="none" stroke="#6b6b8a" stroke-width="22" stroke-linecap="round"/>
+  <rect x="235" y="228" width="42" height="96" rx="12" fill="#1e1e2e"/>
+  <rect x="211" y="252" width="90" height="42" rx="12" fill="#1e1e2e"/>
+</svg>

@@ -1,0 +1,65 @@
+<main class="d-flex justify-content-center align-items-start min-vh-100">
+
+    <div class="container py-4">
+
+        <header class="mb-4">
+            <h6>Persönlicher Gesundheitsbereich</h6>
+            <h1>Deine Vorsorgetermine</h1>
+
+            <p>
+                Hier findest du deine persönliche Terminübersicht. 
+                <br>
+                Du kannst die Einträge bei Bedarf bearbeiten oder löschen.
+            </p>
+
+            <a [routerLink]="['/user']" class="btn btn-primary w-25">Zurück zum Vorsorgepass</a>
+        </header>
+
+
+        <table class="table table-striped table-responsive mt-5">
+            <thead>
+                <tr>
+                    <th scope="col">Nr</th>
+                    <th scope="col"></th>
+                    <th scope="col">Termintyp</th>
+                    <th scope="col">Datum</th>
+                    <th scope="col">Empfohlenes Intervall</th>
+                    <th scope="col">Nächste Vorsorge</th>
+                    <th scope="col">Notizen</th>
+                    <th scope="col">Bearbeiten</th>
+                    <th scope="col">Löschen</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (termin of termine(); track $index; let i = $index) {
+                @let vorsorgeTyp = getVorsorgeTyp(termin.typId);
+
+                <tr>
+                    <td>{{ i + 1 }}</td>
+                    <td><i class="bi vorsorge-icon" [ngClass]="vorsorgeTyp.icon"></i></td>
+                    <td>{{ vorsorgeTyp.name }}</td>
+                    <td>{{ formatiereDatum(termin.datum) }}</td>
+                    <td>{{ vorsorgeTyp.monate }} Monate</td>
+                    <td>{{ naechsteVorsorge(termin) }}</td>
+                    <td>{{ termin.notiz }}</td>
+
+                    <td>
+                        <a [routerLink]="['/termin', termin._id]">
+                            <span class="bi bi-pencil-square"></span>
+                        </a>
+                    </td>
+
+                    <td>
+                        <i (click)="delete(termin._id)" class="bi bi-trash" style="cursor: pointer;">
+                        </i>
+                    </td>
+                </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+</main>

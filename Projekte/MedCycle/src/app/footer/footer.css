@@ -1,0 +1,10 @@
+ul li{
+    display: inline;
+    margin: 20px;  
+    color: rgb(254, 246, 235);
+    
+    a{
+        text-decoration: none;
+    }
+}
+

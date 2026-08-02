@@ -1,0 +1,61 @@
+<main class="d-flex justify-content-center align-items-start min-vh-100">
+    
+    <div class="container py-4">
+
+        <header class="mb-4">
+            <h6>Persönlicher Gesundheitsbereich</h6>
+            <h1>Dein Profil</h1>
+            <p>
+                Hier siehst du deine hinterlegten Daten und kannst sie bei Bedarf aktualisieren.
+            </p>
+            <a [routerLink]="['/user']" class="btn btn-primary w-25">Zurück zum Vorsorgepass</a>
+        </header>
+
+        <div class="row g-3">
+            <div class="col-12 col-lg-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5>Persönliche Daten</h5>
+
+                        <form [formGroup]="profilForm" (ngSubmit)="profilAktualisieren()">
+                            <div class="mb-3">
+                                <label for="vornameInput" class="form-label">Vorname</label>
+                                <input type="text" id="vornameInput" class="form-control" formControlName="vorname" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="nachnameInput" class="form-label">Nachname</label>
+                                <input type="text" id="nachnameInput" class="form-control" formControlName="nachname" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="emailInput" class="form-label">Email</label>
+                                <input type="email" id="emailInput" class="form-control" formControlName="email"
+                                    placeholder="name@email.com"
+                                    [class.is-invalid]="profilForm.controls.email.invalid && profilForm.controls.email.touched" />
+                                <div class="text-danger"
+                                    *ngIf="profilForm.controls.email.invalid && profilForm.controls.email.touched">
+                                    Bitte eine gültige Email-Adresse eingeben.
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="passwordInput" class="form-label">Neues Passwort</label>
+                                <input type="password" id="passwordInput" class="form-control"
+                                    formControlName="password" placeholder="leer lassen, um es nicht zu ändern" />
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100"
+                                [disabled]="profilForm.controls.email.invalid">Aktualisieren</button>
+                        </form>
+
+                        <p *ngIf="ladeFehler" class="text-danger mt-3">
+                            Deine Daten konnten nicht geladen werden. Bitte erneut einloggen.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
